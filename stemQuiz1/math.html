@@ -9,11 +9,12 @@
         Please answer the following questions.
     </p>
     
-    <form method="post">
-        <input type="radio" name="math1" value="A"> \(2^3\) <br>
-        <input type="radio" name="math1" value="B"> \(\sqrt{16}\) <br>
-        <input type="radio" name="math1" value="C"> \(\frac{1}{2} \times 4\) <br>
+    <p>What is the value of the following expression?</p>
+    <p>\(2^3\), \(\sqrt{16}\), or \(\frac{1}{2} \times 4\)?</p>
 
+    <form method="post">
+        {{ form.math1 }}
+        <br>
         <input type="submit" value="Submit">
     </form>
 

@@ -2,7 +2,7 @@ from otree.api import *
 
 
 doc = """
-Your app description
+first STEM Quiz players take.
 """
 
 
@@ -21,12 +21,19 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
-
+    # Section 1, Math Questions
+    math1 = models.StringField(
+        choices = [['A', '2^3'],
+            ['B', '\\sqrt{16}'],
+            ['C', '\\frac{1}{2} \\times 4']],
+        label='What is the value of \(2^3\), \(\\sqrt{16}\), or \(\frac{1}{2} \\times 4\)?',
+        widget=widgets.RadioSelect,
+    )
 
 # PAGES
 class MyPage(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['math1']
 
 
 class ResultsWaitPage(WaitPage):
