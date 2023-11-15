@@ -15,7 +15,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    age = models.IntegerField(label='What is your age?', min=13, max=125)
     # Risk Tolerance Quiz: Would you rather?
     question1 = models.StringField(
         choices=[['Risk', '50% chance of $10'], ['Constant', 'Guarenteed $0']],
@@ -86,19 +85,19 @@ class RiskToleranceQuiz(Page):
                    'question6', 'question7', 'question8', 'question9', 'question10',
                    'question11']
     
-# class Quiz1(Page):
-#     form_model = 'player'
-#     form_fields = ['answer1']
+class Quiz1(Page):
+    form_model = 'player'
+    form_fields = ['answer1']
 
-#     def before_next_page(self):
-#         self.player.check_answer()
+    def before_next_page(self):
+        self.player.check_answer()
 
-#         # Create a new PlayerResponse object
-#         models.PlayerResponse.objects.create(
-#             player=self.player,
-#             question_number=1,
-#             response=self.player.answer1
-#          )
+        # Create a new PlayerResponse object
+        models.PlayerResponse.objects.create(
+            player=self.player,
+            question_number=1,
+            response=self.player.answer1
+         )
 
 
 page_sequence = [RiskToleranceQuiz]
