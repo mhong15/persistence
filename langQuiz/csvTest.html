@@ -1,0 +1,25 @@
+{{ block title }}
+    Language Quiz Part A
+{{ endblock }}
+{{ block content }}
+    <p>
+        Choose the word that is most similar to the word in all capital letters.
+    </p>
+    {% for question in parsed_questions %}
+        <div>
+            <p>{{ question.question_text }}</p>
+            {% if question.image_url %}
+                <img src="{{ question.image_url }}" alt="Question Image">
+            {% endif %}
+            <form>
+                {% for option in question.options %}
+                    <input type="radio" name="question_{{ forloop.counter }}" value="{{ forloop.counter0 }}">
+                    <label>{{ option }}</label><br>
+                {% endfor %}
+            </form>
+        </div>
+    {% endfor %}
+    {{ next_button }}
+
+{{ endblock }}
+
