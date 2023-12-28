@@ -3,13 +3,13 @@ from os import environ
 SESSION_CONFIGS = [
     dict(
         name='Test',
-        app_sequence=['langQuiz'],
+        app_sequence=['PostQuizSurvey','stemQuiz1','langQuiz','persistence'],
         num_demo_participants=1,
     ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
-# in SESSION_CONFIGS, except those that explicitly override it.
+# in SESSION_CONFIGS, except thosep that explicitly override it.
 # the session config can be accessed from methods in your apps as self.session.config,
 # e.g. self.session.config['participation_fee']
 

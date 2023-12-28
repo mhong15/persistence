@@ -1,16 +1,17 @@
 {{ block title }}
-    Language Quiz
+    STEM Quiz 1
 {{ endblock }}
 {{ block content }}
     <p>
-        Choose the word that is most similar to the word in all capital letters.
+        Select the correct choice:
     </p>
     {% for question in parsed_questions %}
         <div>
-            <p>{{ question.question_text }}</p>
+            <p><b>{{ question.question_text }}</b></p>
             {% if question.image_url %}
-                <img src="{{ question.image_url }}" alt="Question Image">
+                <img src="{{ question.image_url }}" alt="Question Image" style="max-width: 50%; height: auto;">
             {% endif %}
+            <br>
             <form>
                 {% for option in question.options %}
                     <input type="radio" name="question_{{ forloop.counter }}" value="{{ forloop.counter0 }}">
@@ -18,6 +19,7 @@
                 {% endfor %}
             </form>
         </div>
+        <br>
     {% endfor %}
     {{ next_button }}
 
