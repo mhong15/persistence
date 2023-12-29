@@ -1,0 +1,27 @@
+{{ block title }}
+    STEM Quiz 2
+{{ endblock }}
+{{ block content }}
+    <p>
+        Select the correct choice:
+    </p>
+    {% for question in parsed_questions %}
+        <div>
+            <p><b>{{ question.question_text }}</b></p>
+            {% if question.image_url %}
+                <img src="{{ question.image_url }}" alt="Question Image" style="max-width: 50%; height: auto;">
+            {% endif %}
+            <br>
+            <form>
+                {% for option in question.options %}
+                    <input type="radio" name="question_{{ forloop.counter }}" value="{{ forloop.counter0 }}">
+                    <label>{{ option }}</label><br>
+                {% endfor %}
+            </form>
+        </div>
+        <br>
+    {% endfor %}
+    {{ next_button }}
+
+{{ endblock }}
+
