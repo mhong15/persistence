@@ -28,9 +28,10 @@ class Player(BasePlayer):
 
 # PAGES
 class SecondaryPostQuizSurvey(Page):
-    def before_next_page(self):
+    def before_next_page(self, timeout_happened):
         # Store the parsed questions in the player's session
-        self.player.participant.vars['parsed_questions'] = self.vars['parsed_questions']
+        #self.player.participant.vars['parsed_questions'] = self.vars['parsed_questions']
+        pass
 
 
 class ResultsWaitPage(WaitPage):

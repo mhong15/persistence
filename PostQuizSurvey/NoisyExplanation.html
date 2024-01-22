@@ -1,0 +1,14 @@
+{{ block title }}
+Noisy Explanation
+{{ endblock }}
+{{ block content }}
+<form>
+        <label for="preferred_info_structure">Choose your preferred info structure:</label>
+        <select name="preferred_info_structure" id="preferred_info_structure">
+                <option value="positive">ComparativePositive</option>
+                <option value="negative">ComparativeNegative</option>
+        </select>
+        <button type="submit">Submit</button>
+</form>
+        {{ next_button }}
+{{ endblock }}

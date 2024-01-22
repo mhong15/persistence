@@ -50,14 +50,9 @@ class csvTest(Page):
             parsed_questions.append(parsed_question)
 
         return {'parsed_questions': parsed_questions}
-    def before_next_page(self):
+    def before_next_page(self, timeout_happened):
         # Store the parsed questions in the player's session
         self.player.participant.vars['parsed_questions'] = self.vars['parsed_questions']
-
-class PartB(Page):
-    form_model = 'player'
-    form_fields = ['lang20', 'lang21', 'lang22', 'lang23', 'lang24', 'lang25', 'lang26',
-                    'lang27', 'lang28', 'lang29', 'lang30']
 
 
 class Results(Page):

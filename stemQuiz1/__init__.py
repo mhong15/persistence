@@ -33,12 +33,20 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
 
+
+
 # PAGES
 class MyPage(Page):
     form_model = 'player'
     form_fields = ['math1']
 
+
 class StemQ(Page):
+    def before_next_page(self, timeout_happened):
+        # Store the parsed questions in the player's vars
+        #self.player.vars['parsed_questions'] = self.vars['parsed_questions']
+        pass
+
     def extract_file_id(url):
         file_id_start = url.find('/d/') + 3
         file_id_end = url.find('/view')
@@ -71,11 +79,6 @@ class StemQ(Page):
             parsed_questions.append(parsed_question)
 
         return {'parsed_questions': parsed_questions}
-     
-    def before_next_page(self):
-        # Store the parsed questions in the player's session
-        self.player.participant.vars['parsed_questions'] = self.vars['parsed_questions']
-
 
 class ResultsWaitPage(WaitPage):
     pass
