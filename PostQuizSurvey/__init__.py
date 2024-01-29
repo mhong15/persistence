@@ -26,23 +26,26 @@ class Player(BasePlayer):
     path = models.StringField(choices=['deterministic', 'explanation'])
     info_structure = models.StringField(choices=['ground', 'positive', 'negative'])
     preferred_info_structure = models.StringField(choices=['positive','negative'])
+    performance = models.StringField(choices=['Top50%', 'Bottom50%', 'Better', 'Worse'])
+    ball_color = models.StringField(choices=['red', 'black'])
 
 class PostQuizSurvey(Page):
     timeout_seconds = 300
 
     def before_next_page(player, timeout_happened):
         # Randomly assign the participant to a track
-        player.track = 'noisy'
-        player.path = 'explanation'
-        # self.track = random.choice(['noisy', 'comparative'])
-        # self.path = random.choice(['random', 'explanation'])
-        # if (self.path == 'random'):
-        #     self.info_structure = random.choice(['ground', 'positive', 'negative'])
-        #     self.participant.vars['info_structure'] = self.info_structure
+        # player.track = 'comparative'
+        # player.path = 'explanation'
+        player.performance = 'Better'
+        player.track = random.choice(['noisy', 'comparative'])
+        player.path = random.choice(['random', 'explanation'])
+        if (player.path == 'random'):
+            player.info_structure = random.choice(['ground', 'positive', 'negative'])
+            player.participant.vars['info_structure'] = player.info_structure
 
-        # # Store the tracks in the player's session
-        # self.participant.vars['track'] = self.track
-        # self.participant.vars['path'] = self.path
+        # Store the tracks in the player's session
+        player.participant.vars['track'] = player.track
+        player.participant.vars['path'] = player.path
         print("END of PostQuizSurvey", player.track, player.path)
 
 # If player is on explanation path, then we need an additional page to explain the game
@@ -50,8 +53,6 @@ class NoisyExplanation(Page):
     timeout_seconds = 60
     form_model = 'player'
     form_fields = ['preferred_info_structure']
-    preferred_info_structure = models.StringField(label="What is your preferred information structure?")
-    preferred_info_structure.widget = widgets.RadioSelect
     
     def is_displayed(player):
         print(player.track, player.path)
@@ -68,37 +69,35 @@ class NoisyExplanation(Page):
 
 class ComparativeExplanation(Page):
     timeout_seconds = 60
+    form_model = 'player'
+    form_fields = ['preferred_info_structure']
     def is_displayed(player):
         print(player.track, player.path)
         return player.track == 'comparative' and player.path == 'explanation'
 
-    def before_next_page(self, timeout_happened):
-        # Get the preferred information structure from the HTML form
-        preferred_info_structure = self.request.POST.get('preferred_info_structure')
-
-        # Store the preferred information structure in the player
-        self.player.preferred_info_structure = preferred_info_structure
-
+    def before_next_page(player, timeout_happened):
         # Flip a coin to determine whether to use the preferred information structure
         if random.random() < 0.5:
-            self.player.info_structure = preferred_info_structure
-        elif self.player.preferred_info_structure == "positive":
-            self.player.info_structure = "negative"
+            player.info_structure = player.preferred_info_structure
+        elif player.preferred_info_structure == "positive":
+            player.info_structure = "negative"
         else:
-            self.player.info_structure = "positive"
+            player.info_structure = "positive"
     
 # Information treatments
-class NoisyGround(Page):
-    timeout_seconds = 60
-    def is_displayed(player):
-        print(player.track, player.path)
-        return player.track == 'noisy' and player.info_structure == 'ground'
-    
 class NoisyPositive(Page):
     timeout_seconds = 60
     def is_displayed(player):
         print(player.track, player.path)
         return player.track == 'noisy' and player.info_structure == 'positive'
+    def before_next_page(player, timeout_happened):
+        if (player.performance == 'Top50%'):
+            if random.random() < 0.5:
+                player.ball_color = 'red'
+            else:
+                player.ball_color = 'black'
+        else:
+            player.ball_color = 'red'
     
 class NoisyNegative(Page):
     timeout_seconds = 60
@@ -106,34 +105,55 @@ class NoisyNegative(Page):
         print(player.track, player.path)
         return player.track == 'noisy'  and player.info_structure == 'negative'
     
-class ComparativeGround(Page):
-    timeout_seconds = 60
-    def is_displayed(player):
-        return player.track == 'comparative' and player.info_structure == 'ground'
-    
+    def before_next_page(player, timeout_happened):
+        if (player.performance == 'Bottom50%'):
+            if random.random() < 0.5:
+                player.ball_color = 'red'
+            else:
+                player.ball_color = 'black'
+        else:
+            player.ball_color = 'red'
 class ComparativePositive(Page):
     timeout_seconds = 60
     def is_displayed(player):
         return player.track == 'comparative' and player.info_structure == 'positive'
+    def before_next_page(player, timeout_happened):
+        if (player.performance == 'Better'):
+            if random.random() < 0.5:
+                player.ball_color = 'red'
+            else:
+                player.ball_color = 'black'
+        else:
+            player.ball_color = 'red'
     
 class ComparativeNegative(Page):
     timeout_seconds = 60
     def is_displayed(player):
         return player.track == 'comparative' and player.info_structure == 'negative'
-
+    def before_next_page(player, timeout_happened):
+        if (player.performance == 'Worse%'):
+            if random.random() < 0.5:
+                player.ball_color = 'red'
+            else:
+                player.ball_color = 'black'
+        else:
+            player.ball_color = 'red'
+    
 class Feedback(Page):
-    pass
-
+    timeout_seconds = 60
+    form_model = 'player'
+    def is_displayed(player):
+        return True
+    
 page_sequence = [
     PostQuizSurvey,
     NoisyExplanation,
     ComparativeExplanation,
+    NoisyPositive,
+    NoisyNegative,
+    ComparativePositive,
+    ComparativeNegative,
+    Feedback
 ]
 
-    # NoisyGround,
-    # NoisyPositive,
-    # NoisyNegative,
-    # ComparativeGround,
-    # ComparativePositive,
-    # ComparativeNegative,
-    # Feedback
+  

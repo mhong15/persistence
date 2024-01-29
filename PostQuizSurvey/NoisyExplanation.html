@@ -1,12 +1,28 @@
 {{ block title }}
-Noisy Explanation
+Feedback Explanation
 {{ endblock }}
 {{ block content }}
+<p>
+        We will be showing you two different options. Please read both options carefully and choose the one that you prefer. Then we will consider your choice and flip a coin. If the coin lands on heads, you will be shown the option you chose. If the coin lands on tails, you will be shown the option you did not choose.
+</p>
+<iframe src="https://drive.google.com/file/d/1euHLzJI47G1mNtRlWvKTXpdWZyTDzjo9/preview" width="640" height="480" allow="autoplay" seamless></iframe>
+
+<h1> Option 1</h1>
+<iframe src="https://drive.google.com/file/d/1fLmVWEN7LNiwDm_BJ62P-7j4HN2_3JhZ/preview" width="640" height="480" allow="autoplay"></iframe>
+<p>
+        If you choose Option 1, we will randomly pick a ball from the box labeled “Top 50%” if you scored in the “Top 50%”. Otherwise, we will randomly pick a ball from the “Bottom 50%” Box. However, you will not know which box we will pick a ball from.
+</p>
+<h1> Option 2</h1>
+<iframe src="https://drive.google.com/file/d/1KJxZY0F6et_T-vfueSmxWaNFzXg4R3T4/preview" width="640" height="480" allow="autoplay" seamless></iframe>
+<p>
+        If you choose Option 2, we will randomly pick a ball from the box labeled “Top 50%” if you scored in the “Top 50%”. Otherwise, we will randomly pick a ball from the “Bottom 50%” Box. However, you will not know which box we will pick a ball from.</p>
+
 <form>
-        <label for="preferred_info_structure">Choose your preferred info structure:</label>
+        <label for="preferred_info_structure">Choose your preferred choice:</label>
         <select name="preferred_info_structure" id="preferred_info_structure">
-                <option value="positive">ComparativePositive</option>
-                <option value="negative">ComparativeNegative</option>
+                <option value="negative">Option 1</option>
+                <option value="positive">Option 2</option>
+                
         </select>
 </form>
         {{ next_button }}
