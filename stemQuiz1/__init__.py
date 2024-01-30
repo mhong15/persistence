@@ -76,6 +76,7 @@ class StemQ(Page):
                 'image_url': StemQ.reformat_img_url(question['image_url']),  # Assuming 'image_url' is a column in your CSV
                 # Add more attributes as per your CSV columns
             }
+            print(parsed_question)
             parsed_questions.append(parsed_question)
 
         return {'parsed_questions': parsed_questions}

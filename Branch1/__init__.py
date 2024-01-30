@@ -37,8 +37,10 @@ class PostQuizSurvey(Page):
         # player.track = 'comparative'
         # player.path = 'explanation'
         player.performance = 'Better'
-        player.track = random.choice(['noisy', 'comparative'])
-        player.path = random.choice(['random', 'explanation'])
+        player.track = 'noisy'
+        player.path = 'explanation'
+        # player.track = random.choice(['noisy', 'comparative'])
+        # player.path = random.choice(['random', 'explanation'])
         if (player.path == 'random'):
             player.info_structure = random.choice(['ground', 'positive', 'negative'])
             player.participant.vars['info_structure'] = player.info_structure
@@ -50,7 +52,7 @@ class PostQuizSurvey(Page):
 
 # If player is on explanation path, then we need an additional page to explain the game
 class NoisyExplanation(Page):
-    timeout_seconds = 60
+    #timeout_seconds = 180
     form_model = 'player'
     form_fields = ['preferred_info_structure']
     
@@ -68,7 +70,7 @@ class NoisyExplanation(Page):
             player.info_structure = "positive"
 
 class ComparativeExplanation(Page):
-    timeout_seconds = 60
+    #timeout_seconds = 180
     form_model = 'player'
     form_fields = ['preferred_info_structure']
     def is_displayed(player):
@@ -78,6 +80,7 @@ class ComparativeExplanation(Page):
     def before_next_page(player, timeout_happened):
         # Flip a coin to determine whether to use the preferred information structure
         if random.random() < 0.5:
+            print(player.preferred_info_structure)
             player.info_structure = player.preferred_info_structure
         elif player.preferred_info_structure == "positive":
             player.info_structure = "negative"
@@ -86,7 +89,7 @@ class ComparativeExplanation(Page):
     
 # Information treatments
 class NoisyPositive(Page):
-    timeout_seconds = 60
+    #timeout_seconds = 180
     def is_displayed(player):
         print(player.track, player.path)
         return player.track == 'noisy' and player.info_structure == 'positive'
@@ -100,7 +103,7 @@ class NoisyPositive(Page):
             player.ball_color = 'red'
     
 class NoisyNegative(Page):
-    timeout_seconds = 60
+    timeout_seconds = 180
     def is_displayed(player):
         print(player.track, player.path)
         return player.track == 'noisy'  and player.info_structure == 'negative'
@@ -114,7 +117,7 @@ class NoisyNegative(Page):
         else:
             player.ball_color = 'red'
 class ComparativePositive(Page):
-    timeout_seconds = 60
+    #timeout_seconds = 180
     def is_displayed(player):
         return player.track == 'comparative' and player.info_structure == 'positive'
     def before_next_page(player, timeout_happened):
@@ -127,7 +130,7 @@ class ComparativePositive(Page):
             player.ball_color = 'red'
     
 class ComparativeNegative(Page):
-    timeout_seconds = 60
+    #timeout_seconds = 180
     def is_displayed(player):
         return player.track == 'comparative' and player.info_structure == 'negative'
     def before_next_page(player, timeout_happened):
@@ -140,7 +143,7 @@ class ComparativeNegative(Page):
             player.ball_color = 'red'
     
 class Feedback(Page):
-    timeout_seconds = 60
+    #timeout_seconds = 180
     form_model = 'player'
     def is_displayed(player):
         return True
