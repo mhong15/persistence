@@ -34,13 +34,10 @@ class PostQuizSurvey(Page):
 
     def before_next_page(player, timeout_happened):
         # Randomly assign the participant to a track
-        # player.track = 'comparative'
-        # player.path = 'explanation'
-        player.performance = 'Better'
-        player.track = 'noisy'
+        player.track = 'comparative'
         player.path = 'explanation'
-        # player.track = random.choice(['noisy', 'comparative'])
-        # player.path = random.choice(['random', 'explanation'])
+        player.performance = 'Better'
+
         if (player.path == 'random'):
             player.info_structure = random.choice(['ground', 'positive', 'negative'])
             player.participant.vars['info_structure'] = player.info_structure
@@ -48,7 +45,10 @@ class PostQuizSurvey(Page):
         # Store the tracks in the player's session
         player.participant.vars['track'] = player.track
         player.participant.vars['path'] = player.path
+        player.participant.vars['performance'] = player.performance
+
         print("END of PostQuizSurvey", player.track, player.path)
+        print(player.participant.vars)
 
 # If player is on explanation path, then we need an additional page to explain the game
 class NoisyExplanation(Page):
@@ -68,6 +68,7 @@ class NoisyExplanation(Page):
             player.info_structure = "negative"
         else:
             player.info_structure = "positive"
+        player.participant.vars['preferred_info_structure'] = player.preferred_info_structure
 
 class ComparativeExplanation(Page):
     #timeout_seconds = 180
@@ -86,6 +87,7 @@ class ComparativeExplanation(Page):
             player.info_structure = "negative"
         else:
             player.info_structure = "positive"
+        player.participant.vars['preferred_info_structure'] = player.preferred_info_structure
     
 # Information treatments
 class NoisyPositive(Page):
@@ -116,6 +118,7 @@ class NoisyNegative(Page):
                 player.ball_color = 'black'
         else:
             player.ball_color = 'red'
+
 class ComparativePositive(Page):
     #timeout_seconds = 180
     def is_displayed(player):

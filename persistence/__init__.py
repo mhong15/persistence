@@ -14,10 +14,16 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     # Risk Tolerance Quiz: Would you rather?
     question1 = models.StringField(
-        choices=[['Risk', '50% chance of $10'], ['Constant', 'Guaranteed $0']],
+        choices=[['R', '50% chance of $10'], ['C', 'Guaranteed $0']],
         label='50% chance of winning $10 or receive a guaranteed $0?',
         widget=widgets.RadioSelect,
     )
+
+    risk_tolerance_answers = models.StringField()
+
+    def get_form_fields(self):
+        return [self.question1]
+
 
     def check_answer(self):
         # Implement logic to check if the answer is correct and record the result
@@ -40,7 +46,7 @@ class RiskToleranceQuiz(Page):
     form_fields = ['question1']
 
     def before_next_page(self, timeout_happened):
-        self.check_answer()
+        self.participant.vars['risk_tolerance_answers'] = "".join(self.get_form_fields())
 
 
 class ResultsWaitPage(WaitPage):

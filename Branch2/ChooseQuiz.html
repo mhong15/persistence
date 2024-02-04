@@ -6,12 +6,8 @@ Feedback Explanation
         Would you rather take another STEM quiz or take a Language quiz instead?
 </p>
 <form>
-        <label for="quiz">Choose your preferred choice:</label>
-        <select name="quiz" id="quiz">
-                <option value="STEM">STEM Quiz</option>
-                <option value="Lang">Language Quiz</option>
-                
-        </select>
+        {% formfield 'preferred_second_survey' %}
+        {% formfield_errors 'preferred_second_survey' %}
 </form>
         {{ next_button }}
 {{ endblock }}

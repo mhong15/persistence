@@ -7,15 +7,13 @@
     </p>
     {% for question in parsed_questions %}
         <div>
-            <p>{{ question.question_text }}</p>
+            <p>{{ question.text }}</p>
             {% if question.image_url %}
                 <img src="{{ question.image_url }}" alt="Question Image">
             {% endif %}
             <form>
-                {% for option in question.options %}
-                    <input type="radio" name="question_{{ forloop.counter }}" value="{{ forloop.counter0 }}">
-                    <label>{{ option }}</label><br>
-                {% endfor %}
+                {% formfield question.question_text %}
+                {% formfield_errors question.question_text %}
             </form>
         </div>
     {% endfor %}

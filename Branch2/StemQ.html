@@ -13,10 +13,8 @@
             {% endif %}
             <br>
             <form>
-                {% for option in question.options %}
-                    <input type="radio" name="question_{{ forloop.counter }}" value="{{ forloop.counter0 }}">
-                    <label>{{ option }}</label><br>
-                {% endfor %}
+                {% formfield question.question_text %}
+                {% formfield_errors question.question_text %}
             </form>
         </div>
         <br>
