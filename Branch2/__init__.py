@@ -8,12 +8,10 @@ Second Optional Stem Quiz to take
 """
 # Extract file_id from the URL
 
-
 class C(BaseConstants):
     NAME_IN_URL = 'StemQuiz2'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-
 
 class Subsession(BaseSubsession):
     pass
@@ -53,7 +51,6 @@ class Player(BasePlayer):
 
 # PAGES
 class ChooseQuiz(Page):
-    timeout_seconds = 60
     form_model = 'player'
     form_fields = ['preferred_second_survey']
 
@@ -63,7 +60,7 @@ class ChooseQuiz(Page):
         player.participant.vars['preferred_second_survey'] = player.preferred_second_survey
 
 class StemQ(Page):
-    timeout_seconds = 60
+    timeout_seconds = 600
     form_model = 'player'
     form_fields = ['question1']
     
@@ -101,7 +98,6 @@ class StemQ(Page):
                 # Add more attributes as per your CSV columns
             }
             parsed_questions.append(parsed_question)
-            self.participant.vars['parsed_questions'] = str(parsed_questions)
         return {'parsed_questions': parsed_questions}
      
     def before_next_page(player, timeout_happened):
@@ -110,7 +106,7 @@ class StemQ(Page):
         player.participant.vars['quiz_2_score'] = player.calculate_score()
 
 class LangQuiz(Page):
-    timeout_seconds = 60
+    timeout_seconds = 600
     form_model = 'player'
     form_fields = ['question1']
 
@@ -139,7 +135,6 @@ class LangQuiz(Page):
                 # Add more attributes as per your CSV columns
             }
             parsed_questions.append(parsed_question)
-            self.participant.vars['parsed_questions'] = str(parsed_questions)
         return {'parsed_questions': parsed_questions}
     def before_next_page(player, timeout_happened):
         # Store the parsed questions in the player's session

@@ -46,6 +46,7 @@ class Player(BasePlayer):
 class StemQ(Page):
     form_model = 'player'
     form_fields = ['question1']
+    timeout_seconds = 600
 
     def before_next_page(self, timeout_happened):
         self.participant.vars['stem_quiz_1_answers'] = "".join(self.get_quiz_answers())
