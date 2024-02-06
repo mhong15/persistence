@@ -151,8 +151,12 @@ class ComparativeNegative(Page):
     
 class Feedback(Page):
     form_model = 'player'
+
     def is_displayed(player):
         return True
+    def before_next_page(player, timeout_happened):
+        player.participant.vars['ball_color'] = player.ball_color
+        print(player.participant.vars)
     
 page_sequence = [
     PostQuizSurvey,
