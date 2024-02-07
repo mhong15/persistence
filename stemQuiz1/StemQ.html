@@ -1,25 +1,24 @@
 {{ block title }}
     STEM Quiz 1
 {{ endblock }}
+
 {{ block content }}
     <p>
         Select the correct choice:
     </p>
-    {% for question in parsed_questions %}
-        <div>
-            <p><b>{{ question.question_text }}</b></p>
-            {% if question.image_url %}
-                <img src="{{ question.image_url }}" alt="Question Image" style="max-width: 50%; height: auto;">
-            {% endif %}
+    <form>
+
+        {% for question in parsed_questions %}
+            <div>
+                {% if question.image_url %}
+                    <img src="{{ question.image_url }}" style="max-width: 50%; height: auto;">
+                {% endif %}
+                <br>
+                {{ formfield question.question_text }}
+                {{ formfield_errors question.question_text }}
+            </div>
             <br>
-            <form>
-                {% formfield question.question_text %}
-                {% formfield_errors question.question_text %}
-            </form>
-        </div>
-        <br>
-    {% endfor %}
+        {% endfor %}
+    </form>
     {{ next_button }}
-
 {{ endblock }}
-

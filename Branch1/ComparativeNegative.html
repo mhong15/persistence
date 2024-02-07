@@ -4,5 +4,31 @@ ComparativeNegative
 {{ block content }}
 <img src="https://drive.google.com/thumbnail?id=1QPxMkIKUxKeDpPwfiCwKgmNhe5JEiMmt&sz=w640" width="640" height="480" allow="autoplay"></img>
 <img src="https://drive.google.com/thumbnail?id=1LX9eMIo_GsNgIyYTGRS0wP5TMxxMLyNP&sz=w640" width="640" height="480" allow="autoplay"></img>
-        {{ next_button }}
+<br></br>
+<button id="reveal-button">{{ 'Reveal the ball' }}</button>
+
+<img id="ball-image" style="display: none; margin-top: 20px;" src="" alt="Ball Image">
+<script>
+        document.getElementById('reveal-button').onclick = function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+    
+            // Change the button label
+            document.getElementById('reveal-button').innerText = "Ball Revealed";
+    
+            // Get the color from the server
+            var color = '{{ player.ball_color }}';
+    
+            // Set the source of the ball image based on the color
+            var imagePath = color === 'red' ? 'https://drive.google.com/thumbnail?id=10gdBZHBzrYodcg4rNJEeQucw57fupodG' : 'https://drive.google.com/thumbnail?id=1AMqy_PpKLv7-d6vZmE1Io2R8YfeMJBK1';
+            document.getElementById('ball-image').src = imagePath;
+    
+            // Display the ball image
+            document.getElementById('ball-image').style.display = 'block';
+        };
+    </script>
+
+    {{ next_button }}
+
 {{ endblock }}
+

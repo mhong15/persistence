@@ -1,23 +1,24 @@
 {{ block title }}
     Language Quiz
 {{ endblock }}
+
 {{ block content }}
     <p>
-        Choose the word that is most similar to the word in all capital letters.
+        Choose the word that is most similar in meaning to the word in capital letters.
     </p>
-    {% for question in parsed_questions %}
-        <div>
-            <p>{{ question.text }}</p>
-            {% if question.image_url %}
-                <img src="{{ question.image_url }}" alt="Question Image">
-            {% endif %}
-            <form>
-                {% formfield question.question_text %}
-                {% formfield_errors question.question_text %}
-            </form>
-        </div>
-    {% endfor %}
-    {{ next_button }}
+    <form method="post" id="myForm">
 
+        {% for question in parsed_questions %}
+            <div>
+                {% if question.image_url %}
+                    <img src="{{ question.image_url }}" alt="Question Image" style="max-width: 50%; height: auto;">
+                {% endif %}
+                <br>
+                {{ formfield question.question_text }}
+                {{ formfield_errors question.question_text }}
+            </div>
+            <br>
+        {% endfor %}
+        {{ next_button }}
+    </form>
 {{ endblock }}
-

@@ -20,18 +20,55 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     pass
 
-
 class Player(BasePlayer):
     question1 = models.StringField(
-        label="Question 1",
         choices=["A", "B", "C", "D"],
         widget=widgets.RadioSelect
     )
+    question2 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question3 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question4 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question5 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question6 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question7 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question8 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question9 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+    question10 = models.StringField(
+        choices=["A", "B", "C", "D"],
+        widget=widgets.RadioSelect
+    )
+
     stem_quiz_1_answers = models.StringField()
     stem_quiz_1_score = models.FloatField()
 
     def get_quiz_answers(self):
-        return [self.question1]
+        return [self.question1, self.question2, self.question3, self.question4,
+                self.question5, self.question6, self.question7, self.question8,
+                self.question9, self.question10]
     
     def calculate_score(self):
         user_answers = self.participant.vars['stem_quiz_1_answers'].split(',')
@@ -41,16 +78,25 @@ class Player(BasePlayer):
             if user_answers[i] == question['correct_answer']:
                 score += 1/len(parsed_questions)
         return score
+        
 
 # PAGES
 class StemQ(Page):
     form_model = 'player'
-    form_fields = ['question1']
+    form_fields = ['question1', 'question2', 'question3', 'question4', 
+                   'question5', 'question6', 'question7', 'question8', 
+                   'question9', 'question10']
     timeout_seconds = 600
 
-    def before_next_page(self, timeout_happened):
-        self.participant.vars['stem_quiz_1_answers'] = "".join(self.get_quiz_answers())
-        self.participant.vars['stem_quiz_1_score'] = self.calculate_score()
+    def before_next_page(player, timeout_happened):
+        print(player.get_quiz_answers())
+    # Store the selected answers in participant.vars
+        player.participant.vars['stem_quiz_1_answers'] = [getattr(player, f'question{i}') for i in range(1, 11)]
+    # You can also calculate the score here if needed
+    # self.participant.vars['stem_quiz_1_score'] = self.calculate_score()
+
+        # self.participant.vars['stem_quiz_1_answers'] = "".join(self.get_quiz_answers())
+        # self.participant.vars['stem_quiz_1_score'] = self.calculate_score()
 
     def extract_file_id(url):
         file_id_start = url.find('/d/') + 3
@@ -82,7 +128,7 @@ class StemQ(Page):
                 # Add more attributes as per your CSV columns
             }
             parsed_questions.append(parsed_question)
-
+        print(parsed_questions)
         return {'parsed_questions': parsed_questions}
 
 class ResultsWaitPage(WaitPage):
@@ -91,6 +137,5 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     pass
-
 
 page_sequence = [StemQ]
