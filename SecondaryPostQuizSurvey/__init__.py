@@ -26,17 +26,17 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     # Post Experiment Survey
-    age = models.IntegerField(min=1, max=100)
-    years_of_education = models.IntegerField(min=1, max=100)
-    gender = models.StringField( 
-        choices=['male', 'female', 'non-binary', 'other', 'prefer not to say'],
-        widget=widgets.RadioSelect)
+    # age = models.IntegerField(min=1, max=100)
+    # years_of_education = models.IntegerField(min=1, max=100)
+    # gender = models.StringField( 
+    #     choices=['male', 'female', 'non-binary', 'other', 'prefer not to say'],
+    #     widget=widgets.RadioSelect)
     
-    race_asian = models.BooleanField(blank=True, initial=False)
-    race_black_or_african_american = models.BooleanField(blank=True, initial=False)
-    race_white = models.BooleanField(blank=True, initial=False)
-    race_hawaiian_or_pacific_islander = models.BooleanField(blank=True, initial=False)
-    race_native_american_or_alaska_native = models.BooleanField(blank=True, initial=False)
+    # race_asian = models.BooleanField(blank=True, initial=False)
+    # race_black_or_african_american = models.BooleanField(blank=True, initial=False)
+    # race_white = models.BooleanField(blank=True, initial=False)
+    # race_hawaiian_or_pacific_islander = models.BooleanField(blank=True, initial=False)
+    # race_native_american_or_alaska_native = models.BooleanField(blank=True, initial=False)
 
     schools_private_independent = models.BooleanField(blank=True, initial=False)
     schools_private_religious = models.BooleanField(blank=True, initial=False)
@@ -54,13 +54,7 @@ class Player(BasePlayer):
 # PAGES
 class SecondaryPostQuizSurvey(Page):
     form_model = 'player'
-    form_fields = ['age', 'years_of_education', 'gender', 
-                  'race_asian', 
-                  'race_black_or_african_american', 
-                  'race_white', 
-                  'race_hawaiian_or_pacific_islander', 
-                  'race_native_american_or_alaska_native', 
-                  'schools_private_independent', 
+    form_fields = ['schools_private_independent', 
                   'schools_private_religious', 
                   'schools_public_school',
                   'schools_homeschool',
@@ -73,18 +67,18 @@ class SecondaryPostQuizSurvey(Page):
                   'experience']
 
     def before_next_page(player, timeout_happened):
-        player.participant.vars['age'] = player.age
-        player.participant.vars['years_of_education'] = player.years_of_education
-        player.participant.vars['gender'] = player.gender
+        # player.participant.vars['age'] = player.age
+        # player.participant.vars['years_of_education'] = player.years_of_education
+        # player.participant.vars['gender'] = player.gender
 
-        races = ["race_asian", "race_black_or_african_american", "race_white",
-                 "race_hawaiian_or_pacific_islander", "race_native_american_or_alaska_native"]
+        # races = ["race_asian", "race_black_or_african_american", "race_white",
+        #          "race_hawaiian_or_pacific_islander", "race_native_american_or_alaska_native"]
         schools = ["schools_private_independent", "schools_private_religious",
                    "schools_public_school", "schools_homeschool", "schools_online_school",
                    "schools_charter_school", "schools_all_girls_school", "schools_all_boys_school",
                    "schools_stem_oriented_school"]
-        for race in races:
-            SecondaryPostQuizSurvey.store_check_box(player, race)
+        # for race in races:
+        #     SecondaryPostQuizSurvey.store_check_box(player, race)
         for school in schools:
             SecondaryPostQuizSurvey.store_check_box(player, school)
     
@@ -99,17 +93,19 @@ class SecondaryPostQuizSurvey(Page):
         player.participant.vars[field] = field_value
 
     def parse_vars_into_csv(player):
+        
         # Convert certain values to lists of individual characters
         vars = player.participant.vars
-        for key in ['risk_tolerance_answers', 'stem_quiz_1_answers', 'quiz_2_answers']:
+        for key in ['stem_quiz_1_answers', 'stem_quiz_1_score', 'numTabSwitches', 'totalTimeHidden', 'quiz_2_answers', 'quiz_2_score', 'numTabSwitches2', 'totalTimeHidden2']:
             if key in vars:
-                vars[key] = list(vars[key])
-
+                if type(vars[key]) == float or type(vars[key]) == int or type(vars[key]) == str:
+                    vars[key] = str(vars[key])
+                else:
+                    vars[key] = list(vars[key]) 
         # Specify CSV file name
         relative_csv_file = 'parse_vars_into_csv.csv'
         current_directory = os.getcwd()
         absolute_csv_file = os.path.join(current_directory, relative_csv_file)
-
 
         # Check if the CSV file already exists
         if os.path.exists(absolute_csv_file):

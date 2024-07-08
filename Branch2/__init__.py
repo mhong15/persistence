@@ -65,8 +65,10 @@ class Player(BasePlayer):
 
     quiz_2_answers = models.StringField()
     quiz_2_score = models.FloatField()
-    preferred_second_survey = models.StringField(choices=['STEM', 'Lang'])
+    preferred_second_survey = models.StringField(choices=['STEM', 'Non-STEM'])
     parsed_questions = models.StringField()
+    numTabSwitches2 = models.IntegerField()
+    totalTimeHidden2 = models.FloatField()
 
     def get_quiz_answers(self):
         return [self.question1, self.question2, self.question3, self.question4,
@@ -78,7 +80,7 @@ class Player(BasePlayer):
         if self.participant.vars['preferred_second_survey'] == 'STEM':
             parsed_questions = StemQ.vars_for_template(self)['parsed_questions']
         else:
-            parsed_questions = LangQuiz.vars_for_template(self)['parsed_questions']
+            parsed_questions = NonStemQuiz.vars_for_template(self)['parsed_questions']
 
         score = 0
         for i, question in enumerate(parsed_questions):
@@ -98,11 +100,11 @@ class ChooseQuiz(Page):
         player.participant.vars['preferred_second_survey'] = player.preferred_second_survey
 
 class StemQ(Page):
-    timeout_seconds = 600
+    timeout_seconds = 480
     form_model = 'player'
     form_fields = ['question1', 'question2', 'question3', 'question4', 
                    'question5', 'question6', 'question7', 'question8', 
-                   'question9', 'question10']
+                   'question9', 'question10', 'numTabSwitches2', 'totalTimeHidden2']
     
     def is_displayed(player):
         return player.preferred_second_survey == 'STEM'
@@ -144,19 +146,21 @@ class StemQ(Page):
         # Store the parsed questions in the player's session
         player.participant.vars['quiz_2_answers'] = ",".join(player.get_quiz_answers())
         player.participant.vars['quiz_2_score'] = player.calculate_score()
+        player.participant.vars['numTabSwitches2'] = player.numTabSwitches2
+        player.participant.vars['totalTimeHidden2'] = player.totalTimeHidden2
 
-class LangQuiz(Page):
-    timeout_seconds = 600
+class NonStemQuiz(Page):
+    timeout_seconds = 480
     form_model = 'player'
     form_fields = ['question1', 'question2', 'question3', 'question4', 
                    'question5', 'question6', 'question7', 'question8', 
-                   'question9', 'question10']
+                   'question9', 'question10', 'numTabSwitches2', 'totalTimeHidden2']
 
     def is_displayed(player):
-        return player.preferred_second_survey == 'Lang'
+        return player.preferred_second_survey == 'Non-STEM'
     
     def vars_for_template(self):
-        with open('/Users/mimizhcj/OTreeExperiment/Branch2/langQuiz.csv', 'r') as file:
+        with open('/Users/mimizhcj/OTreeExperiment/Branch2/nonStemQuiz.csv', 'r') as file:
             questions_data = list(csv.DictReader(file))
 
         # Process questions and return as a dictionary to the template
@@ -182,6 +186,8 @@ class LangQuiz(Page):
         # Store the parsed questions in the player's session
         player.participant.vars['quiz_2_answers'] = ",".join(player.get_quiz_answers())
         player.participant.vars['quiz_2_score'] = player.calculate_score()
+        player.participant.vars['numTabSwitches2'] = player.numTabSwitches2
+        player.participant.vars['totalTimeHidden2'] = player.totalTimeHidden2
 
 class ResultsWaitPage(WaitPage):
     pass
@@ -189,4 +195,4 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     pass
 
-page_sequence = [ChooseQuiz, StemQ, LangQuiz]
+page_sequence = [ChooseQuiz, StemQ, NonStemQuiz]

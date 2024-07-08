@@ -1,13 +1,13 @@
 {{ block title }}
-    Secondary Post Quiz Survey
+Section 6
 {{ endblock }}
 {{ block content }}
         <form>
-            <label for="q1"><b>Question 1: How old are you?</b></label>
+            <!-- <label for="q1"><b>Question 1: How old are you?</b></label>
             <br></br>
             <input type="number" id="q1" name="age" min="1" max="100" title="Enter a number between 1 and 100"><label> years old</label>
-            <br></br>
-            <label for="q2"><b>Question 2: How many years of education have you received? Ex: 1st grade corresponds to 1 year of education. Graduating a 4-year college corresponds to 16 years of education.</b></label>
+            <br></br> -->
+            <!-- <label for="q2"><b>Question 2: How many years of education have you received? Ex: 1st grade corresponds to 1 year of education. Graduating a 4-year college corresponds to 16 years of education.</b></label>
             <br></br>
             <input type="number" id="q2" name="years_of_education" min="0" max="50" title="Enter a number between 0 and 50"><label></label>
             <br></br>
@@ -19,8 +19,8 @@
                 <option value="non-binary">Non-binary</option>
                 <option value="other">Other</option>
                 <option value="prefer not to say">Prefer not to say</option>
-            </select> 
-            <br></br>
+            </select>  -->
+            <!-- <br></br>
             <label for="q4"><b>Question 4: What is your race? Select all that apply. </b></label>
             <br></br>
             <div class="form-check">
@@ -52,10 +52,10 @@
                 <label class="form-check-label">
                     Native American or Alaska Native
                 </label>
-            </div class="form-check">
+            </div class="form-check"> -->
 
             <br></br>
-            <label for="q5"><b>Question 5: What types of schools did you primarily attend? Check that all apply.</b></label>
+            <label for="q1"><b>Question 1: What types of schools did you primarily attend? Check that all apply.</b></label>
             <br>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox"  name="schools_private_independent">
@@ -112,22 +112,15 @@
                 </label>
             </div class="form-check">
             <br>
-            <label for="long-answer"><b>Question 6: If applicable, how would you describe your current teacher? What is their teaching style?</b></label><br>
-            <textarea id="q6" name="current_teacher" rows="4" cols="50"></textarea>
+            <label for="long-answer"><b>Question 2: If applicable, how would you describe your current teacher? What is their teaching style?</b></label><br>
+            <textarea id="q2" name="current_teacher" rows="4" cols="50"></textarea>
             <br>
-            <label for="long-answer"><b>Question 7: How was your experience throughout this process? Do you have any feedback for us?</b></label><br>
-            <textarea id="q7" name="experience" rows="4" cols="50"></textarea>
+            <label for="long-answer"><b>Question 3: How was your experience throughout this process? Do you have any feedback for us?</b></label><br>
+            <textarea id="q3" name="experience" rows="4" cols="50"></textarea>
             <br>
         </form>
 
-        {{ formfield_errors 'age' }}
-        {{ formfield_errors 'years_of_education' }} 
-        {{ formfield_errors 'gender' }} 
-        {{ formfield_errors 'race_asian' }} 
-        {{ formfield_errors 'race_black_or_african_american' }} 
-        {{ formfield_errors 'race_white' }} 
-        {{ formfield_errors 'race_hawaiian_or_pacific_islander' }} 
-        {{ formfield_errors 'race_native_american_or_alaska_native' }} 
+
         {{ formfield_errors 'schools_private_independent' }} 
         {{ formfield_errors 'schools_private_religious' }} 
         {{ formfield_errors 'schools_public_school' }} 

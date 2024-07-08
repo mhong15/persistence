@@ -20,41 +20,44 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
-    track = models.StringField(choices=['noisy', 'comparative'])
+    track = models.StringField(choices=['noisy'])
     path = models.StringField(choices=['deterministic', 'explanation'])
     info_structure = models.StringField(choices=['ground', 'positive', 'negative'])
     preferred_info_structure = models.StringField(choices=['positive','negative'])
-    performance = models.StringField(choices=['Top50%', 'Bottom50%', 'Better', 'Worse'])
+    performance = models.StringField(choices=['Pass', 'Fail'])
     ball_color = models.StringField(choices=['red', 'black'])
     overplacement = models.IntegerField(min=1, max=500)
     overestimation = models.IntegerField(min=0, max=10)
-    overprecision_start = models.IntegerField(min=0, max=10)
-    overprecision_end = models.IntegerField(min=0, max=10)
+    passing_threshold = models.IntegerField(min=0, max=10)
+    # overprecision_start = models.IntegerField(min=0, max=10)
+    # overprecision_end = models.IntegerField(min=0, max=10)
 
 class PostQuizSurvey(Page):
     form_model = 'player'
-    form_fields = ['overplacement', 'overestimation', 'overprecision_start', 'overprecision_end']
+    form_fields = ['overplacement', 'overestimation', 'passing_threshold']
 
     def before_next_page(player, timeout_happened):
         # Record overplacement, overestimation, and overprecision
         player.participant.vars['overplacement'] = player.overplacement
         player.participant.vars['overestimation'] = player.overestimation
-        player.participant.vars['overprecision_start'] = player.overprecision_start
-        player.participant.vars['overprecision_end'] = player.overprecision_end
+        player.participant.vars['passing_threshold'] = player.passing_threshold
+        # player.participant.vars['overprecision_start'] = player.overprecision_start
+        # player.participant.vars['overprecision_end'] = player.overprecision_end
 
         # Randomly assign the participant to a track
-        player.track = 'comparative'
-        if random.random() < 0.5:
-            player.track = 'noisy'
-        else:
-            player.track = 'comparative'
+        player.track = 'noisy'
 
-        if random.random() < 0.5:
-            player.path = 'random'
-        else:
-            player.path = 'explanation'
+        player.path = 'random'
+        # if random.random() < 0.5:
+        #     player.path = 'random'
+        # else:
+        #     player.path = 'explanation'
 
-        player.performance = 'Better'
+        if player.participant.vars['stem_quiz_1_score'] >= player.passing_threshold:
+            player.performance = "Pass"
+        else:
+            player.performance = "Fail"
+        # player.performance = 'Better'
 
         if (player.path == 'random'):
             player.info_structure = random.choice(['ground', 'positive', 'negative'])
@@ -87,29 +90,29 @@ class NoisyExplanation(Page):
             player.info_structure = "positive"
         player.participant.vars['preferred_info_structure'] = player.preferred_info_structure
 
-class ComparativeExplanation(Page):
-    form_model = 'player'
-    form_fields = ['preferred_info_structure']
-    def is_displayed(player):
-        print(player.track, player.path)
-        return player.track == 'comparative' and player.path == 'explanation'
+# class ComparativeExplanation(Page):
+#     form_model = 'player'
+#     form_fields = ['preferred_info_structure']
+#     def is_displayed(player):
+#         print(player.track, player.path)
+#         return player.track == 'comparative' and player.path == 'explanation'
 
-    def before_next_page(player, timeout_happened):
-        # Flip a coin to determine whether to use the preferred information structure
-        if random.random() < 0.5:
-            print(player.preferred_info_structure)
-            player.info_structure = player.preferred_info_structure
-        elif player.preferred_info_structure == "positive":
-            player.info_structure = "negative"
-        else:
-            player.info_structure = "positive"
-        player.participant.vars['preferred_info_structure'] = player.preferred_info_structure
+#     def before_next_page(player, timeout_happened):
+#         # Flip a coin to determine whether to use the preferred information structure
+#         if random.random() < 0.5:
+#             print(player.preferred_info_structure)
+#             player.info_structure = player.preferred_info_structure
+#         elif player.preferred_info_structure == "positive":
+#             player.info_structure = "negative"
+#         else:
+#             player.info_structure = "positive"
+#         player.participant.vars['preferred_info_structure'] = player.preferred_info_structure
     
 # Information treatments
 class NoisyPositive(Page):
     def is_displayed(player):
         print(player.track, player.path)
-        if (player.performance == 'Top50%'):
+        if (player.performance == 'Pass'):
             if random.random() < 0.5:
                 player.ball_color = 'red'
             else:
@@ -124,7 +127,7 @@ class NoisyPositive(Page):
 class NoisyNegative(Page):
     def is_displayed(player):
         print(player.track, player.path)
-        if (player.performance == 'Bottom50%'):
+        if (player.performance == 'Fail'):
             if random.random() < 0.5:
                 player.ball_color = 'red'
             else:
@@ -138,7 +141,7 @@ class NoisyNegative(Page):
 
 class NoisyGround(Page):
     def is_displayed(player):
-        if (player.performance == 'Top50%'):   
+        if (player.performance == 'Pass'):   
             player.ball_color = 'red'
         else:
             player.ball_color = 'black'
@@ -147,55 +150,51 @@ class NoisyGround(Page):
     def before_next_page(player, timeout_happened):
         player.participant.vars['ball_color'] = player.ball_color
     
-class ComparativePositive(Page):
-    def is_displayed(player):
-        if (player.performance == 'Better'):
-            if random.random() < 0.5:
-                player.ball_color = 'red'
-            else:
-                player.ball_color = 'black'
-        else:
-            player.ball_color = 'red'
-        return player.track == 'comparative' and player.info_structure == 'positive'
+# class ComparativePositive(Page):
+#     def is_displayed(player):
+#         if (player.performance == 'Better'):
+#             if random.random() < 0.5:
+#                 player.ball_color = 'red'
+#             else:
+#                 player.ball_color = 'black'
+#         else:
+#             player.ball_color = 'red'
+#         return player.track == 'comparative' and player.info_structure == 'positive'
     
-    def before_next_page(player, timeout_happened):
-        player.participant.vars['ball_color'] = player.ball_color
+#     def before_next_page(player, timeout_happened):
+#         player.participant.vars['ball_color'] = player.ball_color
     
-class ComparativeNegative(Page):
-    def is_displayed(player):
-        if (player.performance == 'Worse'):
-            if random.random() < 0.5:
-                player.ball_color = 'red'
-            else:
-                player.ball_color = 'black'
-        else:
-            player.ball_color = 'red'
-        return player.track == 'comparative' and player.info_structure == 'negative'
-    def before_next_page(player, timeout_happened):
-        player.participant.vars['ball_color'] = player.ball_color
+# class ComparativeNegative(Page):
+#     def is_displayed(player):
+#         if (player.performance == 'Worse'):
+#             if random.random() < 0.5:
+#                 player.ball_color = 'red'
+#             else:
+#                 player.ball_color = 'black'
+#         else:
+#             player.ball_color = 'red'
+#         return player.track == 'comparative' and player.info_structure == 'negative'
+#     def before_next_page(player, timeout_happened):
+#         player.participant.vars['ball_color'] = player.ball_color
 
 
-class ComparativeGround(Page):
-    def is_displayed(player):
-        if (player.performance == 'Better'):   
-            player.ball_color = 'red'
-        else:
-            player.ball_color = 'black'
-        return player.track == 'comparative' and player.info_structure == 'ground'
+# class ComparativeGround(Page):
+#     def is_displayed(player):
+#         if (player.performance == 'Better'):   
+#             player.ball_color = 'red'
+#         else:
+#             player.ball_color = 'black'
+#         return player.track == 'comparative' and player.info_structure == 'ground'
     
-    def before_next_page(player, timeout_happened):
-        player.participant.vars['ball_color'] = player.ball_color
+#     def before_next_page(player, timeout_happened):
+#         player.participant.vars['ball_color'] = player.ball_color
     
 page_sequence = [
     PostQuizSurvey,
     NoisyExplanation,
-    ComparativeExplanation,
     NoisyPositive,
     NoisyNegative,
-    NoisyGround,
-    ComparativePositive,
-    ComparativeNegative,
-    ComparativeGround
+    NoisyGround
 ]
 
   
