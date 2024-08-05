@@ -1,9 +1,10 @@
 from os import environ
+import os
 
 SESSION_CONFIGS = [
     dict(
         name='Test',
-        app_sequence=['persistence','stemQuiz1','Branch1','Branch2', 'RiskTolerance', 'SecondaryPostQuizSurvey'],
+        app_sequence=['Intro', 'Section_1', 'Section_2_3', 'Section_4_5', 'Section_6', 'Section_7'],
         num_demo_participants=1,
     ),
 ]
@@ -35,3 +36,12 @@ ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 DEMO_PAGE_INTRO_HTML = """ """
 
 SECRET_KEY = '5628757875766'
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_URL = '/static/'
+
+# Include your custom static directory
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'Section_1/static'),
+]

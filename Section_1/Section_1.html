@@ -1,0 +1,57 @@
+{% block title %}
+Section 1
+{% endblock %}
+
+{% block content %}
+
+<body>
+    <p>
+        Please answer the following in 8 minutes.
+        One of the multiple choice questions could be selected randomly for the bonus payment. If your answer is
+        correct, then you will receive a bonus payment of $2. If you answer incorrectly, then you will not receive a
+        bonus payment. Thus, please try your best to answer the questions correctly.
+    </p>
+    <p>
+        Please <b>DO NOT CHEAT</b> and look up the answers. If you are caught cheating, then you will not receive any
+        bonus. We will be monitoring your activity during the quiz.
+    </p>
+    <form id="quiz-form" method="post">
+        {% for question in parsed_questions %}
+        <div>
+            {% if question.image_url %}
+
+            {% load static %}
+            <img src="{% static question.image_url %}" alt="Question 1" style="max-width: 75%; height: auto;">
+
+            {% endif %}
+            <br>
+            {{ formfield question.question_text }}
+            {{ formfield_errors question.question_text }}
+        </div>
+        <br>
+        {% endfor %}
+        <input type="hidden" name="num_tab_switches_in_section_1" id="num_tab_switches_in_section_1" value="0">
+        <input type="hidden" name="total_time_hidden_in_section_1" id="total_time_hidden_in_section_1" value="0">
+        {{ next_button }}
+    </form>
+    <script>
+        let tabSwitches = 0;
+        let totalTimeHidden = 0;
+        let currTimeHidden = 0;
+        document.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    currTimeHidden = Date.now();
+                    tabSwitches++;
+                    document.getElementById('num_tab_switches_in_section_1').value = tabSwitches;
+                } else {
+                    totalTimeHidden += (Date.now() - currTimeHidden) / 1000;
+                    document.getElementById('total_time_hidden_in_section_1').value = totalTimeHidden;
+                }
+            });
+
+    </script>
+
+</body>
+{{ formfield_errors 'total_time_hidden_in_section_1' }}
+{{ formfield_errors 'num_tab_switches_in_section_1' }}
+{% endblock %}
