@@ -74,7 +74,7 @@ As part of our secondary analysis, we want to determine if ones persistence in S
 def risk_tolerant_or_averse(risk_quiz):
     for i, c in enumerate(risk_quiz):
         if c == "C":
-            if i <= 5:
+            if i <= 5: # Would you rather have 50% chance of $10 or $5?
                 return 'risk_averse'
             return 'risk_tolerant'
     return 'risk_tolerant'

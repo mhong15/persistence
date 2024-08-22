@@ -3,9 +3,10 @@ import os
 
 SESSION_CONFIGS = [
     dict(
-        name='Test',
+        name='Quiz',
         app_sequence=['Intro', 'Section_1', 'Section_2_3', 'Section_4_5', 'Section_6', 'Section_7'],
         num_demo_participants=1,
+        return_url="https://www.prolific.com/" # Create a new page that redirects to the prolific url
     ),
 ]
 
@@ -18,8 +19,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['questions_answered', 'pages_visited']
-SESSION_FIELDS = ['median_score']
+
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans

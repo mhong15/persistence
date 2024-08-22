@@ -2,6 +2,9 @@ from otree.api import *
 import csv
 import json
 import os
+import pandas as pd
+from scipy.stats import ttest_ind
+import random
 
 class C(BaseConstants):
     NAME_IN_URL = 'Section_7'
@@ -45,7 +48,7 @@ class Section_7(Page):
                   'schools_stem_oriented_school',
                   'track_decision', 
                   'experience']
-    
+
     def is_displayed(player):
         player.preferred_second_survey = player.participant.vars['preferred_second_survey']
         return True
@@ -97,5 +100,11 @@ class Section_7(Page):
 class EndSurvey(Page):
     def before_next_page(player, timeout_happened):
         pass
+
+    def vars_for_template(player):
+        return {
+            'return_url': player.session.config.get('return_url')
+        }
+
 
 page_sequence = [Section_7, EndSurvey]
