@@ -3,3 +3,5 @@ prolific_id,stem_quiz_1_answers,stem_quiz_1_score,num_tab_switches_in_section_1,
 100,AAAAAAAAAA,0.2,0,0.0,100,9,9,negative,noisy,random,Fail,red,Fail Box,STEM Track,AAAAAAAAAA,0.4,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,,
 100,AAAAAAAAAA,0.2,0,0.0,88,9,9,ground,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,,
 100,AAAAAAAAAA,0.2,0,0.0,89,4,5,ground,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,0,0
+100,AAAAAAAAAA,0.2,0,0.0,90,9,9,negative,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,0,0
+100,AAAAAAAAAA,0.2,0,0.0,90,9,9,ground,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,0,0
