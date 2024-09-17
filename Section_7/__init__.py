@@ -2,8 +2,8 @@ from otree.api import *
 import csv
 import json
 import os
-import pandas as pd
-from scipy.stats import ttest_ind
+# import pandas as pd
+# from scipy.stats import ttest_ind
 import random
 
 class C(BaseConstants):

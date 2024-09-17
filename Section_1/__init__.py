@@ -1,8 +1,5 @@
 from otree.api import *
 import csv
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.urls import path, re_path
 import json
 
 class C(BaseConstants):
