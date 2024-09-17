@@ -121,7 +121,7 @@ class Section_5A(Page):
         return player.preferred_second_survey == 'STEM Track'
     
     def vars_for_template(self):
-        with open('/Users/mimizhcj/OTreeExperiment/Section_4_5/Section_5A.csv', 'r') as file:
+        with open('Section_4_5/static/Section_5A.csv', 'r') as file:
             questions_data = list(csv.DictReader(file))
 
         parsed_questions = []
@@ -153,7 +153,7 @@ class Section_5B(Page):
         return player.preferred_second_survey == 'Non-STEM Track'
 
     def vars_for_template(self):
-        with open('/Users/mimizhcj/OTreeExperiment/Section_4_5/Section_5B.csv', 'r') as file:
+        with open('static/Section_4_5/Section_5B.csv', 'r') as file:
             questions_data = list(csv.DictReader(file))
 
         parsed_questions = []

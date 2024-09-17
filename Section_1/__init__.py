@@ -95,7 +95,7 @@ class Section_1(Page):
     timeout_seconds = 480
 
     def vars_for_template(self):
-        with open('/Users/mimizhcj/OTreeExperiment/Section_1/Section_1.csv', 'r') as file:
+        with open('Section_1/static/Section_1.csv', 'r') as file:
             questions_data = list(csv.DictReader(file))
 
         parsed_questions = []
