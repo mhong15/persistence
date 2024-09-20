@@ -19,10 +19,9 @@ class Player(BasePlayer):
     track = models.StringField(choices=['noisy'])
     path = models.StringField(choices=['deterministic', 'explanation'])
     info_structure = models.StringField(choices=['ground', 'positive', 'negative'])
-    preferred_info_structure = models.StringField(choices=['positive','negative'])
     performance = models.StringField(choices=['Pass', 'Fail'])
     ball_color = models.StringField(choices=['red', 'black'])
-    overplacement = models.IntegerField(min=1, max=500)
+    overplacement = models.IntegerField(min=0, max=100)
     overestimation = models.IntegerField(min=0, max=10)
     passing_threshold = models.IntegerField(min=0, max=10)
     ball_origin_estimation = models.StringField(
@@ -41,7 +40,7 @@ class Section_2(Page):
         player.track = 'noisy'
         player.path = 'random'
 
-        if player.participant.vars['stem_quiz_1_score'] >= player.passing_threshold:
+        if player.participant.vars['stem_quiz_1_score'] * 10 >= player.passing_threshold:
             player.performance = "Pass"
         else:
             player.performance = "Fail"
@@ -101,6 +100,7 @@ class Section_3C(Page):
 class Conclusion_Section_3(Page):
     form_model = 'player'
     def is_displayed(player):
+        
         player.participant.vars['ball_color'] = player.ball_color
         player.participant.vars['ball_origin_estimation'] = player.ball_origin_estimation
     

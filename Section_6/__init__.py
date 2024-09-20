@@ -83,6 +83,7 @@ class Section_6(Page):
                    'question9', 'question10', 'question11']
 
     def before_next_page(self, timeout_happened):
-        self.participant.vars['risk_tolerance_answers'] = self.get_form_fields()
+        self.risk_tolerance_answers = self.get_form_fields()
+        self.participant.vars['risk_tolerance_answers'] = self.risk_tolerance_answers
 
 page_sequence = [Section_6]

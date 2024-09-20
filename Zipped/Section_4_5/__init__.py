@@ -174,10 +174,8 @@ class Conclusion_Section_5(Page):
     form_model = 'player'
     
     def is_displayed(player):
-        player.quiz_2_answers = player.get_quiz_answers()
-        player.participant.vars['quiz_2_answers'] = player.quiz_2_answers
-        player.quiz_2_score = player.calculate_score()
-        player.participant.vars['quiz_2_score'] = player.quiz_2_score
+        player.participant.vars['quiz_2_answers'] = player.get_quiz_answers()
+        player.participant.vars['quiz_2_score'] = player.calculate_score()
         player.participant.vars['num_tab_switches_in_section_5'] = player.num_tab_switches_in_section_5
         player.participant.vars['total_time_hidden_in_section_5'] = player.total_time_hidden_in_section_5
         

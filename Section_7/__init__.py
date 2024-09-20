@@ -28,9 +28,9 @@ class Player(BasePlayer):
     schools_all_girls_school = models.BooleanField(blank=True, initial=False)
     schools_all_boys_school = models.BooleanField(blank=True, initial=False)
     schools_stem_oriented_school = models.BooleanField(blank=True, initial=False)
-
-    track_decision = models.LongStringField(blank=True, initial=False)
-    experience = models.LongStringField(blank=True, initial=False)
+    
+    track_decision = models.LongStringField(blank=True)
+    experience = models.LongStringField(blank=True)
     preferred_second_survey = models.StringField(choices=['STEM Track', 'Non-STEM Track'])
     
 
