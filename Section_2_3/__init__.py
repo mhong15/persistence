@@ -42,7 +42,8 @@ class Section_2(Page):
         player.track = 'noisy'
         player.path = 'explanation'
 
-        if player.participant.vars['stem_quiz_1_score'] >= player.passing_threshold:
+        print(player.participant.vars['stem_quiz_1_score'], player.passing_threshold)
+        if player.participant.vars['stem_quiz_1_score'] * 10 >= player.passing_threshold:
             player.performance = "Pass"
         else:
             player.performance = "Fail"

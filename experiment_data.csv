@@ -6,3 +6,10 @@ test1,AAAAAAAAAA,0.2,0,0.0,90,9,9,noisy,explanation,Fail,red,Fail Box,False,Fals
 mila,AAAAAAAAAA,0.2,0,0.0,50,2,3,noisy,explanation,Fail,red,Fail Box,True,True,True,False,False,False,True,False,True,,
 mila,AAAAAAAAAA,0.2,0,0.0,50,2,2,noisy,explanation,Fail,red,Fail Box,True,True,True,False,False,False,True,False,True,Computer science,Great!
 mila - b,AAAAAAAAAA,0.2,0,0.0,50,2,3,noisy,explanation,Fail,black,Fail Box,True,True,True,False,False,False,True,False,True,Math and Economics,Good
+test3,AAAAAAAAAA,0.2,0,0.0,90,0,0,noisy,explanation,Pass,black,Pass Box,True,True,True,False,False,False,False,False,False,CS,Good
+test4,AAAAAAAAAA,0.2,0,0.0,90,9,9,noisy,explanation,Fail,red,Pass Box,True,True,True,False,False,False,False,False,False,English,N/A
+test1,AABBBCDCDB,0.7,1,5.162,60,5,6,noisy,explanation,Fail,red,Pass Box,True,True,True,False,False,False,True,False,True,"Computer Science, Software Engineering, Technical Program Management",Quick survey!
+test2 - checking performance,AABBBCDCCC,0.7,0,0.0,60,5,6,noisy,explanation,Fail,black,Fail Box,True,True,True,False,False,False,False,False,False,,
+test3 - 0 and 0 - should pass,AABBBCDCCC,0.7,0,0.0,50,0,0,noisy,explanation,Pass,red,Pass Box,False,False,False,False,False,False,False,False,False,,
+test 4 - ,AABBBCDCCC,0.7,0,0.0,50,5,6,noisy,explanation,Pass,red,Pass Box,False,False,False,False,False,False,False,False,False,,
+test4,AABBBCDCDD,0.6,0,0.0,90,9,9,noisy,explanation,Fail,red,Pass Box,True,False,True,False,False,False,False,False,False,,

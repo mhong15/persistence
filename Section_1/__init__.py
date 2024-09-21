@@ -122,7 +122,6 @@ class Conclusion(Page):
         player.participant.vars['stem_quiz_1_answers'] = player.stem_quiz_1_answers
         player.stem_quiz_1_score = player.calculate_score()
         player.participant.vars['stem_quiz_1_score'] = player.stem_quiz_1_score
-        player.participant.vars['stem_quiz_1_score'] = player.calculate_score()
         player.participant.vars['num_tab_switches_in_section_1'] = player.num_tab_switches_in_section_1
         player.participant.vars['total_time_hidden_in_section_1'] = player.total_time_hidden_in_section_1
 
