@@ -1,5 +1,8 @@
-prolific_id,stem_quiz_1_answers,stem_quiz_1_score,num_tab_switches_in_section_1,total_time_hidden_in_section_1,overplacement,overestimation,passing_threshold,info_structure,track,path,performance,ball_color,ball_origin_estimation,preferred_second_survey,quiz_2_answers,quiz_2_score,num_tab_switches_in_section_5,total_time_hidden_in_section_5,risk_tolerance_answers,schools_private_independent,schools_private_religious,schools_public_school,schools_homeschool,schools_online_school,schools_charter_school,schools_all_girls_school,schools_all_boys_school,schools_stem_oriented_school,track_decision,experience
-0,AAAAAAAAAA,0.2,0,0.0,90,9,9,positive,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRCCCCCC,False,False,False,False,False,False,False,False,False,,
-100,AAAAAAAAAA,0.2,0,0.0,100,9,9,negative,noisy,random,Fail,red,Fail Box,STEM Track,AAAAAAAAAA,0.4,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,,
-100,AAAAAAAAAA,0.2,0,0.0,88,9,9,ground,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,,
-100,AAAAAAAAAA,0.2,0,0.0,89,4,5,ground,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,0,0
+prolific_id,stem_quiz_1_answers,stem_quiz_1_score,num_tab_switches_in_section_1,total_time_hidden_in_section_1,overplacement,overestimation,passing_threshold,track,path,performance,ball_color,ball_origin_estimation,schools_private_independent,schools_private_religious,schools_public_school,schools_homeschool,schools_online_school,schools_charter_school,schools_all_girls_school,schools_all_boys_school,schools_stem_oriented_school,track_decision,experience
+test1,AAAAAAAAAA,0.2,0,0.0,90,9,9,noisy,explanation,Fail,black,Fail Box,True,False,True,True,True,False,False,False,False,0,
+test1,AAAAAAAAAA,0.2,0,0.0,90,0,0,noisy,explanation,Pass,red,Fail Box,True,True,True,False,False,False,False,False,False,Hello,There
+test2,AAAAAAAAAA,0.2,0,0.0,90,0,0,noisy,explanation,Pass,black,Pass Box,True,True,True,False,False,False,False,False,False,,
+test1,AAAAAAAAAA,0.2,0,0.0,90,9,9,noisy,explanation,Fail,red,Fail Box,False,False,False,True,True,False,False,False,False,Hello,Test
+mila,AAAAAAAAAA,0.2,0,0.0,50,2,3,noisy,explanation,Fail,red,Fail Box,True,True,True,False,False,False,True,False,True,,
+mila,AAAAAAAAAA,0.2,0,0.0,50,2,2,noisy,explanation,Fail,red,Fail Box,True,True,True,False,False,False,True,False,True,Computer science,Great!
+mila - b,AAAAAAAAAA,0.2,0,0.0,50,2,3,noisy,explanation,Fail,black,Fail Box,True,True,True,False,False,False,True,False,True,Math and Economics,Good

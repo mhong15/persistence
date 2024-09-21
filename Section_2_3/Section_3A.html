@@ -4,7 +4,7 @@ Section 3
 {{ block content }}
 
 <p>
-    We will now show you a hint about how well you did on the math test.
+    We will now show you a hint about how well you did on the math test using Option A.
     Here's how we'll do that:
 </p>
 <br></br>
@@ -16,15 +16,14 @@ Section 3
     correctly, then you will "Pass" the
     quiz and a ball will be randomly chosen from the "Pass" box and shown to you.
     Otherwise, you will "Fail" the quiz and a ball will be randomly chosen from the
-    "Fail" box and shown to you. However, you will not know which box we will pick a
-    ball from.
+    "Fail" box and shown to you. However, you will not know which box we will pick a ball from.
 </p>
-<br></br>
-{% load static %}
-<img src="{% static 'Section_2_3/noisy_ground.png' %}" style="max-width: 75%; height: auto;">
-<br></br>
-<button id="reveal-button">{{ 'Click to reveal your hint' }}</button>
 
+<br></br>
+<img src="{% static 'Section_2_3/noisy_positive.png' %}" style="max-width: 75%; height: auto;">
+<br></br>
+
+<button id="reveal-button">{{ 'Click to reveal your hint' }}</button>
 <img id="ball-image" style="display: none; max-width: 10%; height: auto;" src="" alt="Ball Image">
 
 <br></br>
@@ -42,7 +41,7 @@ Section 3
 
         var color = "{{ player.ball_color }}";
 
-        var imagePath = color === 'red' ? "{% static 'Section_2_3/red_ball.png' %}": "{% static 'Section_2_3/black_ball.png' %}";
+        var imagePath = color === 'red' ? "{% static 'Section_2_3/red_ball.png' %}" : "{% static 'Section_2_3/black_ball.png' %}";
         document.getElementById('ball-image').src = imagePath;
 
         document.getElementById('ball-image').style.display = 'block';

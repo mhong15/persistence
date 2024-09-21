@@ -18,11 +18,12 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     track = models.StringField(choices=['noisy'])
     path = models.StringField(choices=['deterministic', 'explanation'])
-    info_structure = models.StringField(choices=['ground', 'positive', 'negative'])
-    preferred_info_structure = models.StringField(choices=['positive','negative'])
+    preferred_info_structure = models.StringField(
+        choices=['Choice A','Choice B'],
+        label="Select the choice that you prefer to get feedback from: ")
     performance = models.StringField(choices=['Pass', 'Fail'])
     ball_color = models.StringField(choices=['red', 'black'])
-    overplacement = models.IntegerField(min=1, max=500)
+    overplacement = models.IntegerField(min=0, max=100)
     overestimation = models.IntegerField(min=0, max=10)
     passing_threshold = models.IntegerField(min=0, max=10)
     ball_origin_estimation = models.StringField(
@@ -39,16 +40,12 @@ class Section_2(Page):
         player.participant.vars['passing_threshold'] = player.passing_threshold
 
         player.track = 'noisy'
-        player.path = 'random'
+        player.path = 'explanation'
 
         if player.participant.vars['stem_quiz_1_score'] >= player.passing_threshold:
             player.performance = "Pass"
         else:
             player.performance = "Fail"
-
-        if (player.path == 'random'):
-            player.info_structure = random.choice(['ground', 'positive', 'negative'])
-            player.participant.vars['info_structure'] = player.info_structure
 
         player.participant.vars['track'] = player.track
         player.participant.vars['path'] = player.path
@@ -57,46 +54,41 @@ class Section_2(Page):
 class Conclusion_Section_2(Page):
     form_model = 'player'
 
+class Section_3(Page):
+    form_model = 'player'
+    form_fields = ['preferred_info_structure']
+
+    def before_next_page(player, timeout_happened):
+        if player.preferred_info_structure == 'Choice A':
+            if (player.performance == 'Pass'):
+                if random.random() < 0.5:
+                    player.ball_color = 'red'
+                else:
+                    player.ball_color = 'black'
+            else:
+                player.ball_color = 'red'
+        else:
+            if (player.performance == 'Fail'):
+                if random.random() < 0.5:
+                    player.ball_color = 'red'
+                else:
+                    player.ball_color = 'black'
+            else:
+                player.ball_color = 'red'
+    
 class Section_3A(Page):
     form_model = 'player'
-    form_fields = ['ball_origin_estimation']
-    
-    def is_displayed(player):
-        if (player.performance == 'Pass'):   
-            player.ball_color = 'red'
-        else:
-            player.ball_color = 'black'
-        return player.track == 'noisy' and player.info_structure == 'ground'
+    form_fields = ["ball_origin_estimation"]
 
+    def is_displayed(player):
+        return player.preferred_info_structure == 'Choice A'
+    
 class Section_3B(Page):
     form_model = 'player'
-    form_fields = ['ball_origin_estimation']
+    form_fields = ["ball_origin_estimation"]
 
     def is_displayed(player):
-        if (player.performance == 'Fail'):
-            if random.random() < 0.5:
-                player.ball_color = 'red'
-            else:
-                player.ball_color = 'black'
-        else:
-            player.ball_color = 'red'
-        return player.track == 'noisy' and player.info_structure == 'negative'
-    
-
-class Section_3C(Page):
-    form_model = 'player'
-    form_fields = ['ball_origin_estimation']
-
-    def is_displayed(player):
-        if (player.performance == 'Pass'):
-            if random.random() < 0.5:
-                player.ball_color = 'red'
-            else:
-                player.ball_color = 'black'
-        else:
-            player.ball_color = 'red'
-        return player.track == 'noisy' and player.info_structure == 'positive'
-    
+        return player.preferred_info_structure == 'Choice B'
 
 class Conclusion_Section_3(Page):
     form_model = 'player'
@@ -110,9 +102,9 @@ class Conclusion_Section_3(Page):
 page_sequence = [
     Section_2,
     Conclusion_Section_2,
+    Section_3,
     Section_3A,
     Section_3B,
-    Section_3C,
     Conclusion_Section_3
 ]
 

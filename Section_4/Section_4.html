@@ -1,0 +1,69 @@
+{{ block title }}
+Section 4
+{{ endblock }}
+{{ block content }}
+<form method="post">
+    <br></br>
+    <label for="q1"><b>Question 1: What types of schools did you primarily attend? Check that all apply.</b></label>
+    <br>
+    <div>
+        <input type="checkbox" name="schools_private_independent">
+        Private Independent
+    </div>
+    <div>
+        <input type="checkbox" name="schools_private_religious">
+        Private Religious
+    </div>
+    <div>
+        <input type="checkbox" name="schools_public_school">
+        Public School
+    </div>
+    <div>
+        <input type="checkbox" name="schools_homeschool">
+        Homeschool
+    </div>
+    <div>
+        <input type="checkbox" name="schools_online_school">
+        Online School
+    </div>
+    <div>
+        <input type="checkbox" name="schools_charter_school">
+        Charter School
+    </div>
+    <div>
+        <input type="checkbox" name="schools_all_girls_school">
+        All Girls School
+    </div>
+    <div>
+        <input type="checkbox" name="schools_all_boys_school">
+        All Boys School
+    </div>
+    <div>
+        <input type="checkbox" name="schools_stem_oriented_school">
+        STEM Oriented School
+    </div>
+
+    <br>
+    <label for="q2"><b>Question 2: What were the main subjects that you studied in school and industries that you've worked in?</b></label><br>
+    <textarea id="q2" name="subjects" rows="4" cols="50"></textarea>
+    <br>
+    <label for="long-answer"><b>Question 3: How was your experience throughout this process? Do you have any feedback
+            for us?</b></label><br>
+    <textarea id="q3" name="experience" rows="4" cols="50"></textarea>
+    <br>
+
+    <button type="submit">Submit</button>
+</form>
+
+{{ formfield_errors 'schools_private_independent' }}
+{{ formfield_errors 'schools_private_religious' }}
+{{ formfield_errors 'schools_public_school' }}
+{{ formfield_errors 'schools_homeschool' }}
+{{ formfield_errors 'schools_online_school' }}
+{{ formfield_errors 'schools_charter_school' }}
+{{ formfield_errors 'schools_all_girls_school' }}
+{{ formfield_errors 'schools_all_boys_school' }}
+{{ formfield_errors 'schools_stem_oriented_school' }}
+{{ formfield_errors 'subjects' }}
+{{ formfield_errors 'experience' }}
+{{ endblock }}

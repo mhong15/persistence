@@ -4,7 +4,7 @@ import os
 SESSION_CONFIGS = [
     dict(
         name='Quiz',
-        app_sequence=['Intro', 'Section_1', 'Section_2_3', 'Section_4_5', 'Section_6', 'Section_7'],
+        app_sequence=['Intro', 'Section_1', 'Section_2_3', 'Section_4'],
         num_demo_participants=1,
         return_url="https://www.prolific.com/" # Create a new page that redirects to the prolific url
     ),

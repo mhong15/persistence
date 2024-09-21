@@ -1,8 +1,5 @@
 from otree.api import *
 import csv
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.urls import path, re_path
 import json
 
 class C(BaseConstants):
@@ -98,7 +95,7 @@ class Section_1(Page):
     timeout_seconds = 480
 
     def vars_for_template(self):
-        with open('/Users/mimizhcj/OTreeExperiment/Section_1/Section_1.csv', 'r') as file:
+        with open('Section_1/static/Section_1.csv', 'r') as file:
             questions_data = list(csv.DictReader(file))
 
         parsed_questions = []
@@ -121,7 +118,10 @@ class Conclusion(Page):
     form_model = 'player'
     
     def is_displayed(player):
-        player.participant.vars['stem_quiz_1_answers'] = player.get_quiz_answers()
+        player.stem_quiz_1_answers = player.get_quiz_answers()
+        player.participant.vars['stem_quiz_1_answers'] = player.stem_quiz_1_answers
+        player.stem_quiz_1_score = player.calculate_score()
+        player.participant.vars['stem_quiz_1_score'] = player.stem_quiz_1_score
         player.participant.vars['stem_quiz_1_score'] = player.calculate_score()
         player.participant.vars['num_tab_switches_in_section_1'] = player.num_tab_switches_in_section_1
         player.participant.vars['total_time_hidden_in_section_1'] = player.total_time_hidden_in_section_1

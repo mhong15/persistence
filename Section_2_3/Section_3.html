@@ -1,0 +1,112 @@
+{{ block title }}
+Section 3
+{{ endblock }}
+{{ block content }}
+<html>
+
+<head>
+    <style>
+        .content {
+            display: none;
+        }
+
+        .answerbtn {
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .answerbtn:after {
+            content: '\25BC';
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .submit {
+            background-color: #007bff;
+            color: white;
+            padding: 0.375rem 0.75rem;
+            margin: 8px 0;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            width: auto;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+                border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .submit:hover {
+            background-color: #0056b3;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <p>
+            We will now show you a hint about how well you did on the math test.
+            Here's how we'll do that:
+        </p>
+        <br></br>
+        <p>
+            We have two boxes each containing two red/or black balls. One is labeled "Pass"
+            and the other is labeled "Fail." You will be shown the contents of the boxes.
+            Then the boxes are hidden and shuffled such that you will not know which is
+            which. If you answered at least <b>{% player.passing_threshold %}</b> questions
+            correctly, then you will "Pass" the
+            quiz and a ball will be randomly chosen from the "Pass" box and shown to you.
+            Otherwise, you will "Fail" the quiz and a ball will be randomly chosen from the
+            "Fail" box and shown to you. However, you will not know which box we will pick a ball from.
+        </p>
+        <p>
+            You will be shown two options for the configuration of the boxes: Option 1 and Option 2. Please click on the
+            buttons to see the configuration of the boxes.
+        </p>
+        <br></br>
+        <div class="info_structures">
+            <button class="positive" data-target="positive" onclick="revealAnswersFunction(event)">Option A</button>
+            <div id="positive" class="content">
+
+                <img src="{% static 'Section_2_3/noisy_positive.png' %}" style="max-width: 75%; height: auto;">
+            </div>
+
+            <br></br>
+            <button class="negative" data-target="negative" onclick="revealAnswersFunction(event)">Option B</button>
+            <div id="negative" class="content">
+
+                <img src="{% static 'Section_2_3/noisy_negative.png' %}" style="max-width: 75%; height: auto;">
+            </div>
+        </div>
+
+
+            <script>
+                function nextButton(event) {
+                    event.nextButton();
+                }
+
+                function revealAnswersFunction(event) {
+                    event.preventDefault();
+                    const targetId = event.target.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    if (content.style.display === 'none' || content.style.display === '') {
+                        content.style.display = 'block';
+                    } else {
+                        content.style.display = 'none';
+                    }
+                }
+            </script>
+    </form>
+</body>
+{{ formfield 'preferred_info_structure'}}
+{{ formfield_errors 'preferred_info_structure' }}
+{{ next_button }}
+{{ endblock }}
