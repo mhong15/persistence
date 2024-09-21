@@ -13,3 +13,5 @@ test2 - checking performance,AABBBCDCCC,0.7,0,0.0,60,5,6,noisy,explanation,Fail,
 test3 - 0 and 0 - should pass,AABBBCDCCC,0.7,0,0.0,50,0,0,noisy,explanation,Pass,red,Pass Box,False,False,False,False,False,False,False,False,False,,
 test 4 - ,AABBBCDCCC,0.7,0,0.0,50,5,6,noisy,explanation,Pass,red,Pass Box,False,False,False,False,False,False,False,False,False,,
 test4,AABBBCDCDD,0.6,0,0.0,90,9,9,noisy,explanation,Fail,red,Pass Box,True,False,True,False,False,False,False,False,False,,
+test1,AACCCDDDBB,0.5,0,0.0,50,3,4,noisy,explanation,Pass,black,Pass Box,True,True,True,False,False,False,False,False,False,,Good
+test,AAAAAAAAAA,0.2,0,0.0,0,1,1,noisy,explanation,Pass,black,Pass Box,False,False,False,False,True,True,False,False,False,,
