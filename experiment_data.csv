@@ -30,3 +30,8 @@ test4,AAAAAAAAAA,0.2,0,0.0,90,0,0,ground,noisy,random,Pass,red,Pass Box,Non-STEM
 test1,AAAAAAAAAA,0.2,0,0.0,90,9,9,ground,noisy,random,Fail,red,Fail Box,STEM Track,AAAAAAAAAA,0.4,0,0.0,RRRRRRRRRRR,True,True,True,False,False,False,False,False,False,Hello,There
 test2,AAAAAAAAAA,0.2,0,0.0,90,0,0,negative,noisy,random,Pass,red,Pass Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,True,True,True,False,False,False,False,False,False,Hello,There
 test3,AAAAAAAAAA,0.2,0,0.0,90,9,9,positive,noisy,random,Fail,red,Fail Box,STEM Track,AAAAAAAAAA,0.4,0,0.0,RRRRRRRRRRR,True,True,True,False,False,False,False,False,False,,
+test1,AABBBCDCDD,0.6,0,0.0,50,7,7,ground,noisy,random,Fail,red,Fail Box,STEM Track,BADAADBACD,0.6,2,4.119,RRRRRCCCCCC,True,True,False,False,False,False,True,False,True,,
+test1,AABBBCDCDD,0.6,0,0.0,50,7,7,negative,noisy,random,Fail,red,Pass Box,Non-STEM Track,AAAAAAABBB,0.3,0,0.0,RRRRRRCCCCC,True,True,True,False,False,False,False,False,False,Shorter,Nope,CS
+test2,AACBBBDCCB,1.0,0,0.0,50,10,10,ground,noisy,random,Pass,black,Pass Box,STEM Track,AAAAAAAAAA,0.4,0,0.0,RRRRRRRRRRR,True,True,True,True,True,True,True,True,True,Good,Good,Math
+test3 - cheating,AAAAAAAAAA,0.2,5,7.54,20,3,5,negative,noisy,random,Fail,red,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,True,True,True,False,False,False,False,False,False,Easier,Good,"Math, CS"
+test4 - cheating on quiz 2,AAAAAAAAAA,0.2,0,0.0,0,0,1,ground,noisy,random,Pass,black,Pass Box,STEM Track,AAAAAAAAAA,0.4,2,2.7590000000000003,RRRRRRRRRRR,True,True,True,True,True,True,True,True,True,I like STEM,,CS

@@ -3,7 +3,7 @@ import os
 
 SESSION_CONFIGS = [
     dict(
-        name='Quiz',
+        name='Experiment_1_Persistence',
         app_sequence=['Intro', 'Section_1', 'Section_2_3', 'Section_4_5', 'Section_6', 'Section_7'],
         num_demo_participants=1,
         return_url="https://app.prolific.com/submissions/complete?cc=C1BTHULB" # Create a new page that redirects to the prolific url

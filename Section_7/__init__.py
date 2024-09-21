@@ -30,7 +30,9 @@ class Player(BasePlayer):
     schools_stem_oriented_school = models.BooleanField(blank=True, initial=False)
     
     track_decision = models.LongStringField(blank=True)
+    subjects = models.LongStringField(blank=True)
     experience = models.LongStringField(blank=True)
+    
     preferred_second_survey = models.StringField(choices=['STEM Track', 'Non-STEM Track'])
     
 
@@ -46,7 +48,8 @@ class Section_7(Page):
                   'schools_all_girls_school',
                   'schools_all_boys_school',
                   'schools_stem_oriented_school',
-                  'track_decision', 
+                  'track_decision',
+                  'subjects', 
                   'experience']
 
     def is_displayed(player):
@@ -64,6 +67,7 @@ class Section_7(Page):
     
         player.participant.vars['track_decision'] = player.track_decision
         player.participant.vars['experience'] = player.experience
+        player.participant.vars['subjects'] = player.subjects
 
         print("End Survey Vars:\n", player.participant.vars)
         Section_7.export_experiment_data(player)
