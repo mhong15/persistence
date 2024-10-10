@@ -66,8 +66,108 @@ df = df[(df[SECTION_1_NUM_TAB_SWITCHES] <= 5.0) &
 # df = df[~((df[INFO_STRUCTURE] == 'negative') & (df['ball_color'] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
 
 # Conduct t_tests: Is 
+section_1_cols = [
+    "Intro.1.player.prolific_id", 
+    "Section_1.1.player.question1",
+    "Section_1.1.player.question2", 
+    "Section_1.1.player.question3", 
+    "Section_1.1.player.question4", 
+    "Section_1.1.player.question5", 
+    "Section_1.1.player.question6", 
+    "Section_1.1.player.question7", 
+    "Section_1.1.player.question8", 
+    "Section_1.1.player.question9", 
+    "Section_1.1.player.question10", 
+    "Section_1.1.player.stem_quiz_1_answers", 
+    "Section_1.1.player.stem_quiz_1_score", 
+    "Section_1.1.player.num_tab_switches_in_section_1", "Section_1.1.player.total_time_hidden_in_section_1"
+                  ]
+section_2_3_cols = [
+    "Section_2_3.1.player.track",
+    "Section_2_3.1.player.path",
+    "Section_2_3.1.player.info_structure",
+    "Section_2_3.1.player.preferred_info_structure",
+    "Section_2_3.1.player.performance",
+    "Section_2_3.1.player.ball_color",
+    "Section_2_3.1.player.overplacement",
+    "Section_2_3.1.player.overestimation",
+    "Section_2_3.1.player.passing_threshold",
+    "Section_2_3.1.player.ball_origin_estimation"
+    ]
+section_4_5_cols = [
+    "Section_4_5.1.player.question1",
+    "Section_4_5.1.player.question2",
+    "Section_4_5.1.player.question3",
+    "Section_4_5.1.player.question4",
+    "Section_4_5.1.player.question5",
+    "Section_4_5.1.player.question6",
+    "Section_4_5.1.player.question7",
+    "Section_4_5.1.player.question8",
+    "Section_4_5.1.player.question9",
+    "Section_4_5.1.player.question10",
+    "Section_4_5.1.player.quiz_2_answers",
+    "Section_4_5.1.player.quiz_2_score",
+    "Section_4_5.1.player.preferred_second_survey",
+    "Section_4_5.1.player.num_tab_switches_in_section_5",
+    "Section_4_5.1.player.total_time_hidden_in_section_5"
+]
+section_6_cols = [
+    "Section_6.1.player.question1",
+    "Section_6.1.player.question2",
+    "Section_6.1.player.question3",
+    "Section_6.1.player.question4",
+    "Section_6.1.player.question5",
+    "Section_6.1.player.question6",
+    "Section_6.1.player.question7",
+    "Section_6.1.player.question8",
+    "Section_6.1.player.question9",
+    "Section_6.1.player.question10",
+    "Section_6.1.player.question11",
+    "Section_6.1.player.risk_tolerance_answers"
+]
 
+section_7_cols = [
+    "Section_7.1.player.schools_private_independent",
+    "Section_7.1.player.schools_private_religious",
+    "Section_7.1.player.schools_public_school",
+    "Section_7.1.player.schools_homeschool",
+    "Section_7.1.player.schools_online_school",
+    "Section_7.1.player.schools_charter_school",
+    "Section_7.1.player.schools_all_girls_school",
+    "Section_7.1.player.schools_all_boys_school",
+    "Section_7.1.player.schools_stem_oriented_school",
+    "Section_7.1.player.track_decision",
+    "Section_7.1.player.experience",
+    "Section_7.1.player.preferred_second_survey"
+]
+
+demographic_cols = [
+    "Time taken",
+    "Total approvals",
+    "Ethnicity",
+    "Highest education level completed",
+    "Age",
+    "Sex",
+    "Ethnicity simplified",
+    "Country of birth",
+    "Country of residence",
+    "Nationality",
+    "Language",
+    "Student status",
+    "Employment status"
+]
+columns = section_1_cols + section_2_3_cols + section_4_5_cols + section_6_cols + section_7_cols + demographic_cols
+
+df = df[columns]
+df["Section_1.1.player.stem_quiz_1_answers"] = df[[
+    "Section_1.1.player.question{i}" for i in range(1, 11)
+    ]].apply(lambda row: list(row), axis=1)
+
+df["Section_1.1.player.stem_quiz_1_answers"] = df[[
+    "Section_1.1.player.question{i}" for i in range(1, 11)
+    ]].apply(lambda row: list(row), axis=1)
 df.to_csv('pilot_case_cleaned_data.csv', index=False) 
+
 def t_tests(df, alpha):
 
 

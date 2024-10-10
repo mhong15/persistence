@@ -53,18 +53,42 @@ class Section_2(Page):
         player.participant.vars['path'] = player.path
         player.participant.vars['performance'] = player.performance
 
+        # Setting ball color
+        if player.track == 'noisy':
+            if player.info_structure == 'ground':
+                if (player.performance == 'Pass'):   
+                    player.ball_color = 'red'
+                else:
+                    player.ball_color = 'black'
+            elif player.info_structure == 'negative':
+                if (player.performance == 'Fail'):
+                    if random.random() < 0.5:
+                        player.ball_color = 'red'
+                    else:
+                        player.ball_color = 'black'
+                else:
+                    player.ball_color = 'red'
+            else:
+                if (player.performance == 'Pass'):
+                    if random.random() < 0.5:
+                        player.ball_color = 'red'
+                    else:
+                        player.ball_color = 'black'
+                else:
+                    player.ball_color = 'red'
+            print("( " + player.info_structure + ", " + player.performance + ", " + player.ball_color + ")")
+
+
+
 class Conclusion_Section_2(Page):
     form_model = 'player'
 
 class Section_3A(Page):
+    # Ground Truth
     form_model = 'player'
     form_fields = ['ball_origin_estimation']
     
     def is_displayed(player):
-        if (player.performance == 'Pass'):   
-            player.ball_color = 'red'
-        else:
-            player.ball_color = 'black'
         return player.track == 'noisy' and player.info_structure == 'ground'
 
 class Section_3B(Page):
@@ -72,35 +96,19 @@ class Section_3B(Page):
     form_fields = ['ball_origin_estimation']
 
     def is_displayed(player):
-        if (player.performance == 'Fail'):
-            if random.random() < 0.5:
-                player.ball_color = 'red'
-            else:
-                player.ball_color = 'black'
-        else:
-            player.ball_color = 'red'
         return player.track == 'noisy' and player.info_structure == 'negative'
     
-
 class Section_3C(Page):
     form_model = 'player'
     form_fields = ['ball_origin_estimation']
 
     def is_displayed(player):
-        if (player.performance == 'Pass'):
-            if random.random() < 0.5:
-                player.ball_color = 'red'
-            else:
-                player.ball_color = 'black'
-        else:
-            player.ball_color = 'red'
         return player.track == 'noisy' and player.info_structure == 'positive'
-    
 
 class Conclusion_Section_3(Page):
     form_model = 'player'
     def is_displayed(player):
-        
+        print("Ball color: " + player.ball_color)
         player.participant.vars['ball_color'] = player.ball_color
         player.participant.vars['ball_origin_estimation'] = player.ball_origin_estimation
     

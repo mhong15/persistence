@@ -72,9 +72,9 @@ class Player(BasePlayer):
     risk_tolerance_answers = models.StringField()
 
     def get_form_fields(self):
-        return "".join([self.question1, self.question2, self.question3, self.question4, 
-                self.question5, self.question6, self.question7, self.question8, 
-                self.question9, self.question10, self.question11])
+        answers = [self.question1, self.question2, self.question3, self.question4, self.question5, self.question6, self.question7, self.question8, self.question9, self.question10, self.question11]
+        answers = map(lambda x: '_' if x == '' else x, answers)
+        return "".join(answers)
 
 class Section_6(Page):
     form_model = 'player'
