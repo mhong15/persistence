@@ -5,7 +5,7 @@ import os
 import random
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Section_4'
+    NAME_IN_URL = 'Exp2_Section_4'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 

@@ -5,7 +5,7 @@ import json
 import random
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Section_2_3'
+    NAME_IN_URL = 'Exp2_Section_2_3'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -51,6 +51,8 @@ class Section_2(Page):
         player.participant.vars['track'] = player.track
         player.participant.vars['path'] = player.path
         player.participant.vars['performance'] = player.performance
+
+
 
 class Conclusion_Section_2(Page):
     form_model = 'player'

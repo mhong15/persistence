@@ -3,7 +3,7 @@ import csv
 import json
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Section_1'
+    NAME_IN_URL = 'Exp2_Section_1'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -71,9 +71,9 @@ class Player(BasePlayer):
     total_time_hidden_in_section_1 = models.FloatField()
 
     def get_quiz_answers(self):
-        return "".join([self.question1, self.question2, self.question3, self.question4,
-                self.question5, self.question6, self.question7, self.question8,
-                self.question9, self.question10])
+        quiz_answers = [self.question1, self.question2, self.question3, self.question4, self.question5, self.question6, self.question7, self.question8, self.question9, self.question10]
+        quiz_answers = map(lambda x: '_' if x == '' else x, quiz_answers)
+        return "".join(quiz_answers)
     
     def calculate_score(self):
         user_answers = self.participant.vars['stem_quiz_1_answers']
@@ -95,7 +95,7 @@ class Section_1(Page):
     timeout_seconds = 480
 
     def vars_for_template(self):
-        with open('Section_1/static/Section_1.csv', 'r') as file:
+        with open('Exp2_Section_1/static/Exp2_Section_1.csv', 'r') as file:
             questions_data = list(csv.DictReader(file))
 
         parsed_questions = []
@@ -109,7 +109,7 @@ class Section_1(Page):
                     question['option_4'],
                 ],
                 'correct_answer': (question['correct_answer']), 
-                'image_url': f'Section_1/{question["question_text"]}.png', 
+                'image_url': f'Exp2_Section_1/{question["question_text"]}.png', 
             }
             parsed_questions.append(parsed_question)
         return {'parsed_questions': parsed_questions}
