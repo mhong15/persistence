@@ -3,12 +3,13 @@ from scipy.stats import ttest_ind
 import random
 import os
 
-OTREE_DATA = "Exp1_Trial_3.csv"
-DEMOGRAPHIC_DATA = "Exp1_Trial_3_Demographics.csv"
+OTREE_DATA = "Exp1_Pilot_1.csv"
+DEMOGRAPHIC_DATA = "Exp1_Pilot_1_demographics.csv"
 
 PROLIFIC_ID = "Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Section_1.1.player.question"
 STEM_QUIZ_1_SCORE = "Section_1.1.player.stem_quiz_1_score"
+STEM_QUIZ_1_ANSWERS = "Section_1.1.player.stem_quiz_1_answers"
 SECTION_1_NUM_TAB_SWITCHES = "Section_1.1.player.num_tab_switches_in_section_1"
 SECTION_1_TIME_HIDDEN = "Section_1.1.player.total_time_hidden_in_section_1"
 INFO_STRUCTURE = "Section_2_3.1.player.info_structure"
@@ -19,12 +20,14 @@ PASSING_THRESHOLD = "Section_2_3.1.player.passing_threshold"
 BALL_ORIGIN_ESTIMATION = "Section_2_3.1.player.ball_origin_estimation"
 QUIZ_2 = "Section_4_5.1.player.question"
 QUIZ_2_SCORE = "Section_4_5.1.player.quiz_2_score"
+QUIZ_2_ANSWERS = "Section_4_5.1.player.quiz_2_answers"
 PREFERRED_SECOND_SURVEY = "Section_4_5.1.player.preferred_second_survey"
 SECTION_5_NUM_TAB_SWITCHES = "Section_4_5.1.player.num_tab_switches_in_section_5"
 SECTION_5_TIME_HIDDEN = "Section_4_5.1.player.total_time_hidden_in_section_5"
 RISK_TOLERANCE = "Section_6.1.player.question"
 RISK_TOLERANCE_ANSWERS = "Section_6.1.player.risk_tolerance_answers"
 BALL_COLOR = "Section_2_3.1.player.ball_color"
+
 
 
 class Payment_Calculator:
@@ -81,7 +84,6 @@ class Payment_Calculator:
         return 0
     
     def calculate_bonus_section_2(self, index):
-        # Choose which question to use for the bonus
         random_question = random.randint(1, 3)
 
         match random_question:
@@ -100,10 +102,8 @@ class Payment_Calculator:
             return 0
         if p < int(overplacement):
             random_participant = self.df.sample()
-            random_participant_score = random_participant[STEM_QUIZ_1_SCORE].values[0]
-            
             participant_score = self.df[STEM_QUIZ_1_SCORE][index]
-
+            random_participant_score = random_participant[STEM_QUIZ_1_SCORE].values[0]
             if  participant_score >= random_participant_score:
                 return 2
             return 0
@@ -129,8 +129,8 @@ class Payment_Calculator:
         '''
         if pd.isna(self.df[STEM_QUIZ_1_SCORE][index]):
             return 0
-        c = self.df[STEM_QUIZ_1_SCORE][index] * 10 # Num questions answered correctly
-        g = self.df[PASSING_THRESHOLD][index] # Your answer to question 3
+        c = self.df[STEM_QUIZ_1_SCORE][index] * 10
+        g = self.df[PASSING_THRESHOLD][index]
 
         if pd.isna(g):
             return 0
@@ -141,14 +141,13 @@ class Payment_Calculator:
         if pd.isna(self.df[PREFERRED_SECOND_SURVEY][index]):
             return 0
         if self.df[PREFERRED_SECOND_SURVEY][index] == 'STEM Track':
-            if self.df[QUIZ_2_SCORE][index] * 10 >= self.df[PASSING_THRESHOLD][index]:
+            if self.df[QUIZ_2_SCORE][index] * 10 >= self.df[PASSING_THRESHOLD][index] :
                 return 2
             return 0
         else:
             return self.df[QUIZ_2_SCORE][index] * 2
         
     def calculate_bonus_section_6(self, index, question=None, i=None):
-        # Check if question is None (don't check it its not question, b/c question might be 0)
         if pd.isna(self.df[RISK_TOLERANCE_ANSWERS][index]):
             return 0
         if question == None:
@@ -163,10 +162,52 @@ class Payment_Calculator:
         # For the nth question, the fixed payment is equal to n.
         return question
 
-df = pd.read_csv('Exp1_Trial_3_cleaned_data.csv')
+df = pd.read_csv('Exp1_Pilot_1_cleaned_data.csv')
+
+parent_directory = os.path.dirname(os.getcwd())
+section_1_answer_key = pd.read_csv(parent_directory + '/Section_1.csv')
+section_5A_answer_key = pd.read_csv(parent_directory + '/Section_5A.csv')
+section_5B_answer_key = pd.read_csv(parent_directory + '/Section_5B.csv')
+
+# Recalculate quiz 1 answers and score for every participant
+
+df[STEM_QUIZ_1_ANSWERS] = df[STEM_QUIZ_1_ANSWERS].apply(lambda x: '' if not isinstance(x, (str, list)) else x)
+df[QUIZ_2_ANSWERS] = df[QUIZ_2_ANSWERS].apply(lambda x: '' if not isinstance(x, (str, list)) else x)
+
+df[RISK_TOLERANCE_ANSWERS] = df[RISK_TOLERANCE_ANSWERS].astype(str)
+for index, row in df.iterrows():
+    # QUIZ 1
+    participant_answers = [row[STEM_QUIZ_1 + str(i)] for i in range(1, 11)]
+    participant_answers = map(lambda x: '_' if pd.isna(x) or x == '' else x, participant_answers)
+    participant_answers = "".join(participant_answers)
+    df.at[index, STEM_QUIZ_1_ANSWERS] = participant_answers
+
+    participant_score = sum([1 if participant_answers[i] == question else 0 for i, question in enumerate(section_1_answer_key['correct_answer'])]) /len(section_1_answer_key)
+    df.at[index, STEM_QUIZ_1_SCORE] = participant_score
+
+    df.at[index, PLAYER_PERFORMANCE] = 'Fail' if participant_score < df[PASSING_THRESHOLD][index] else 'Pass'
+
+    # QUIZ 2
+    participant_answers = [row[QUIZ_2 + str(i)] for i in range(1, 11)]
+    participant_answers = map(lambda x: '_' if pd.isna(x) or x == '' else x, participant_answers)
+    participant_answers = "".join(participant_answers)
+    df.at[index, QUIZ_2_ANSWERS] = participant_answers
+
+    if row[PREFERRED_SECOND_SURVEY] == 'STEM Track':
+        participant_score = sum([1 if participant_answers[i] == question else 0 for i, question in enumerate(section_5A_answer_key['correct_answer'])]) / len(section_5A_answer_key)
+    else:
+        participant_score = sum([1 if participant_answers[i] == question else 0 for i, question in enumerate(section_5B_answer_key['correct_answer'])])
+        df.at[index, QUIZ_2_SCORE] = participant_score / len(section_5B_answer_key)
+
+    # Risk Tolerance
+    participant_answers = "".join([row[RISK_TOLERANCE + str(i)] for i in range(1, 12)])
+    # Convert risk tolerance answers dtype to a string
+    df.at[index, RISK_TOLERANCE_ANSWERS] = participant_answers
 
 payment_calculator = Payment_Calculator(df)
 all_payments = payment_calculator.calculate_all_payments()
 
 # Save the payments to a csv file
-all_payments.to_csv('Exp1_Trial_3_payments.csv', index=False)
+df.to_csv('Exp1_Pilot_1_cleaned_data.csv',index=False)
+all_payments.to_csv('Exp1_Pilot_1_payments.csv', index=False)
+df.head(5).to_csv("Exp1_Pilot_1_payments_test.csv", index=False)

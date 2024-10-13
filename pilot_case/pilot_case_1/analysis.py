@@ -3,8 +3,8 @@ from scipy.stats import ttest_ind
 from scipy.stats import chi2_contingency
 import numpy as np
 
-OTREE_DATA = "Exp1_Trial_1.csv"
-DEMOGRAPHIC_DATA = "Exp1_Trial_1_demographics.csv"
+OTREE_DATA = "Exp1_Pilot_1.csv"
+DEMOGRAPHIC_DATA = "Exp1_Pilot_1_demographics.csv"
 
 PROLIFIC_ID = "Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Section_1.1.player.question"
@@ -37,7 +37,7 @@ df = df[df["Completion code"] == "C1BTHULB"]
 # Remove any column starting with "pg"
 df = df.loc[:, ~df.columns.str.startswith('pg')]
 
-df.to_csv("Exp1_Trial_1_cleaned_data.csv")
+df.to_csv("Exp1_Pilot_1_cleaned_data.csv")
 
 # If the participant did not answer any questions, change their STEM_QUIZ_1_ANSWERS to an empty string
 df[STEM_QUIZ_1_ANSWERS] = df[STEM_QUIZ_1_ANSWERS].apply(lambda x: '' if not isinstance(x, (str, list)) else x)
@@ -45,7 +45,7 @@ df[STEM_QUIZ_1_ANSWERS] = df[STEM_QUIZ_1_ANSWERS].apply(lambda x: '' if not isin
 df = df[df[STEM_QUIZ_1_ANSWERS].apply(lambda x: len(x) == 10 or len(x) == 0)]
 
 # Print number of participants in the study
-print(f'The number of participants in the Trial 1 is {df.shape[0]}')
+print(f'The number of participants in the Pilot 1 is {df.shape[0]}')
 
 # Remove participants who cheated: had more than 5 tab switches and more than 30 seconds of hidden pages.
 df[SECTION_1_NUM_TAB_SWITCHES] = pd.to_numeric(df[SECTION_1_NUM_TAB_SWITCHES], errors='coerce')

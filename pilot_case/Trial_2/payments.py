@@ -3,8 +3,8 @@ from scipy.stats import ttest_ind
 import random
 import os
 
-OTREE_DATA = "Exp1_Trial_3.csv"
-DEMOGRAPHIC_DATA = "Exp1_Trial_3_Demographics.csv"
+OTREE_DATA = "Exp1_Trial_2.csv"
+DEMOGRAPHIC_DATA = "Exp1_Trial_2_demographics.csv"
 
 PROLIFIC_ID = "Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Section_1.1.player.question"
@@ -163,10 +163,9 @@ class Payment_Calculator:
         # For the nth question, the fixed payment is equal to n.
         return question
 
-df = pd.read_csv('Exp1_Trial_3_cleaned_data.csv')
-
+df = pd.read_csv('Exp1_Trial_2_cleaned_data.csv')
 payment_calculator = Payment_Calculator(df)
 all_payments = payment_calculator.calculate_all_payments()
 
 # Save the payments to a csv file
-all_payments.to_csv('Exp1_Trial_3_payments.csv', index=False)
+all_payments.to_csv('Exp1_Trial_2_payments.csv', index=False)

@@ -3,10 +3,8 @@ from scipy.stats import ttest_ind
 from scipy.stats import chi2_contingency
 import numpy as np
 
-# Data formatting
-# Renaming Columns from the Otree csv
-OTREE_DATA = "otree_data_09-18.csv"
-DEMOGRAPHIC_DATA = "prolific_demographic_data.csv"
+OTREE_DATA = "Exp1_Pilot_2.csv"
+DEMOGRAPHIC_DATA = "Exp1_Pilot_2_Demographics.csv"
 
 PROLIFIC_ID = "Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Section_1.1.player.question"
@@ -23,6 +21,7 @@ PREFERRED_SECOND_SURVEY = "Section_4_5.1.player.preferred_second_survey"
 SECTION_5_NUM_TAB_SWITCHES = "Section_4_5.1.player.num_tab_switches_in_section_5"
 SECTION_5_TIME_HIDDEN = "Section_4_5.1.player.total_time_hidden_in_section_5"
 RISK_TOLERANCE = "Section_6.1.player.question"
+BALL_COLOR = "Section_2_3.1.player.ball_color"
 
 otree_df = pd.read_csv(OTREE_DATA)
 demographic_df = pd.read_csv(DEMOGRAPHIC_DATA)
@@ -33,6 +32,15 @@ df = pd.merge(otree_df, demographic_df, left_on=PROLIFIC_ID, right_on="Participa
 # Remove any participants who returned the survey and did not complete it
 df = df[df["Status"] == "APPROVED"]
 df = df[df["Completion code"] == "C1BTHULB"]
+
+# Remove any column starting with "pg"
+df = df.loc[:, ~df.columns.str.startswith('pg')]
+
+# Save the data to a new csv file
+df.to_csv("Exp1_Pilot_2_cleaned_data.csv")
+
+# Print number of participants in the study
+print(f'The number of participants in the Pilot Case 2 is {df.shape[0]}')
 
 # Remove participants who cheated: had more than 5 tab switches and more than 30 seconds of hidden pages.
 df[SECTION_1_NUM_TAB_SWITCHES] = pd.to_numeric(df[SECTION_1_NUM_TAB_SWITCHES], errors='coerce')
@@ -57,13 +65,13 @@ df = df[(df[SECTION_1_NUM_TAB_SWITCHES] <= 5.0) &
         - If their on the negative path, their ball is black, and they answered Pass box - remove them.
  """
 
-# df = df[~((df[INFO_STRUCTURE] == 'ground') & (df['ball_color'] == 'red') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
+df = df[~((df[INFO_STRUCTURE] == 'ground') & (df[BALL_COLOR] == 'red') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
 
-# df = df[~((df[INFO_STRUCTURE] == 'ground') & (df['ball_color'] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
+df = df[~((df[INFO_STRUCTURE] == 'ground') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
 
-# df = df[~((df[INFO_STRUCTURE] == 'positive') & (df['ball_color'] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
+df = df[~((df[INFO_STRUCTURE] == 'positive') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
 
-# df = df[~((df[INFO_STRUCTURE] == 'negative') & (df['ball_color'] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
+df = df[~((df[INFO_STRUCTURE] == 'negative') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
 
 # Conduct t_tests: Is 
 section_1_cols = [
@@ -86,7 +94,7 @@ section_2_3_cols = [
     "Section_2_3.1.player.track",
     "Section_2_3.1.player.path",
     "Section_2_3.1.player.info_structure",
-    "Section_2_3.1.player.preferred_info_structure",
+   #"Section_2_3.1.player.preferred_info_structure",
     "Section_2_3.1.player.performance",
     "Section_2_3.1.player.ball_color",
     "Section_2_3.1.player.overplacement",
@@ -159,18 +167,8 @@ demographic_cols = [
 columns = section_1_cols + section_2_3_cols + section_4_5_cols + section_6_cols + section_7_cols + demographic_cols
 
 df = df[columns]
-df["Section_1.1.player.stem_quiz_1_answers"] = df[[
-    "Section_1.1.player.question{i}" for i in range(1, 11)
-    ]].apply(lambda row: list(row), axis=1)
-
-df["Section_1.1.player.stem_quiz_1_answers"] = df[[
-    "Section_1.1.player.question{i}" for i in range(1, 11)
-    ]].apply(lambda row: list(row), axis=1)
-df.to_csv('pilot_case_cleaned_data.csv', index=False) 
 
 def t_tests(df, alpha):
-
-
     ground_persistence = df[df[INFO_STRUCTURE] == 'ground'][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
     positive_persistence = df[df[INFO_STRUCTURE] == 'positive'][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
     negative_persistence = df[df[INFO_STRUCTURE] == 'negative'][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
