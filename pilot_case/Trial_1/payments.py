@@ -4,7 +4,7 @@ import random
 import os
 
 OTREE_DATA = "Exp2_Trial_1.csv"
-DEMOGRAPHIC_DATA = "Exp2_Trial_1_denmographics.csv"
+DEMOGRAPHIC_DATA = "Exp2_Trial_1_demographics.csv"
 
 PROLIFIC_ID = "Exp2_Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Exp2_Section_1.1.player.question"
