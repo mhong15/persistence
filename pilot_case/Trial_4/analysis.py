@@ -3,12 +3,11 @@ from scipy.stats import ttest_ind
 from scipy.stats import chi2_contingency
 import numpy as np
 
-OTREE_DATA = "Exp1_Trial_1.csv"
-DEMOGRAPHIC_DATA = "Exp1_Trial_1_demographics.csv"
+OTREE_DATA = "Exp1_Trial_4.csv"
+DEMOGRAPHIC_DATA = "Exp1_Trial_4_Demographics.csv"
 
 PROLIFIC_ID = "Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Section_1.1.player.question"
-STEM_QUIZ_1_ANSWERS = "Section_1.1.player.stem_quiz_1_answers"
 SECTION_1_NUM_TAB_SWITCHES = "Section_1.1.player.num_tab_switches_in_section_1"
 SECTION_1_TIME_HIDDEN = "Section_1.1.player.total_time_hidden_in_section_1"
 INFO_STRUCTURE = "Section_2_3.1.player.info_structure"
@@ -36,16 +35,13 @@ df = df[df["Completion code"] == "C1BTHULB"]
 
 # Remove any column starting with "pg"
 df = df.loc[:, ~df.columns.str.startswith('pg')]
+df = df.loc[:, ~df.columns.str.startswith('Cold')]
 
-df.to_csv("Exp1_Trial_1_cleaned_data.csv")
-
-# If the participant did not answer any questions, change their STEM_QUIZ_1_ANSWERS to an empty string
-df[STEM_QUIZ_1_ANSWERS] = df[STEM_QUIZ_1_ANSWERS].apply(lambda x: '' if not isinstance(x, (str, list)) else x)
-
-df = df[df[STEM_QUIZ_1_ANSWERS].apply(lambda x: len(x) == 10 or len(x) == 0)]
+# Save the data to a new csv file
+df.to_csv("Exp1_Trial_4_cleaned_data.csv")
 
 # Print number of participants in the study
-print(f'The number of participants in the Trial 1 is {df.shape[0]}')
+print(f'The number of participants in the Trial 4 is {df.shape[0]}')
 
 # Remove participants who cheated: had more than 5 tab switches and more than 30 seconds of hidden pages.
 df[SECTION_1_NUM_TAB_SWITCHES] = pd.to_numeric(df[SECTION_1_NUM_TAB_SWITCHES], errors='coerce')
@@ -69,13 +65,14 @@ df = df[(df[SECTION_1_NUM_TAB_SWITCHES] <= 5.0) &
     Negative:
         - If their on the negative path, their ball is black, and they answered Pass box - remove them.
  """
-# df = df[~((df[INFO_STRUCTURE] == 'ground') & (df[BALL_COLOR] == 'red') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
 
-# df = df[~((df[INFO_STRUCTURE] == 'ground') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
+df = df[~((df[INFO_STRUCTURE] == 'ground') & (df[BALL_COLOR] == 'red') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
 
-# df = df[~((df[INFO_STRUCTURE] == 'positive') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
+df = df[~((df[INFO_STRUCTURE] == 'ground') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
 
-# df = df[~((df[INFO_STRUCTURE] == 'negative') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
+df = df[~((df[INFO_STRUCTURE] == 'positive') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Fail'))]
+
+df = df[~((df[INFO_STRUCTURE] == 'negative') & (df[BALL_COLOR] == 'black') & (df[BALL_ORIGIN_ESTIMATION] == 'Pass'))]
 
 # Conduct t_tests: Is 
 section_1_cols = [
@@ -98,7 +95,6 @@ section_2_3_cols = [
     "Section_2_3.1.player.track",
     "Section_2_3.1.player.path",
     "Section_2_3.1.player.info_structure",
-   #"Section_2_3.1.player.preferred_info_structure",
     "Section_2_3.1.player.performance",
     "Section_2_3.1.player.ball_color",
     "Section_2_3.1.player.overplacement",
@@ -172,7 +168,7 @@ columns = section_1_cols + section_2_3_cols + section_4_5_cols + section_6_cols 
 
 df = df[columns]
 
-df.to_csv("Exp1_Trial_1_analysis_data.csv")
+df.to_csv("Exp1_Trial_4_analysis_data.csv")
 
 def t_tests(df, alpha):
     ground_persistence = df[df[INFO_STRUCTURE] == 'ground'][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)

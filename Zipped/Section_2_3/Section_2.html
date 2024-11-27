@@ -1,0 +1,157 @@
+{{ block title }}
+Section 2
+{{ endblock }}
+{{ block content }}
+Please answer the following questions to the best of your ability. It is in your best financial interest to answer
+honestly and
+accurately. If you would like to learn more about how we are incentivizing each question, please click the following
+buttons to learn more about the incentives for each question.
+
+<html>
+
+<head>
+    <style>
+        .content {
+            display: none;
+        }
+
+        .answerbtn {
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .answerbtn:after {
+            content: '\25BC';
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .submit {
+            background-color: #007bff;
+            color: white;
+            padding: 0.375rem 0.75rem;
+            margin: 8px 0;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            width: auto;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+                border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .submit:hover {
+            background-color: #0056b3;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <br></br>
+    <div class="incentives">
+        <button class="answerbtn" data-target="content1" onclick="revealAnswersFunction(event)">How we are incentivizing
+            Question 1?</button>
+        <div id="content1" class="content">
+            <p>We will generate a random number (p) between 0 and 100. If p is lower than your answer to question 1, we
+                will compare your score with a randomly selected participant. If your score is equal to or greater than
+                the score of the randomly selected participant, then you will gain a $2 bonus. Otherwise, you will
+                receive a $0 bonus. If p is greater than or equal to your answer, then we will randomly choose a number
+                (r) between 0 and 100. If r < p, then you will receive a $2 bonus. Otherwise, you will receive a $0
+                    bonus.</p>
+        </div>
+
+        <button class="answerbtn" data-target="content2" onclick="revealAnswersFunction(event)">How we are
+            incentivizing Question 2?</button>
+        <div id="content2" class="content">
+            <p>If question 2 is selected for the bonus question and you successfully guess the number of
+                questions
+                you answered correctly, then you will receive the bonus payment of $2.</p>
+        </div>
+
+        <button class="answerbtn" data-target="content3" onclick="revealAnswersFunction(event)">How we are
+            incentivizing Question 3?</button>
+        <div id="content3" class="content">
+            <p>If question 3 is selected for the bonus question, you will earn a (max{100 - |c - g|, 0} / 100) * $2
+                bonus, where c is the number of questions you answered correctly and g is your answer to question 3.
+                In order to maximize your bonus, you should guess the median of your belief distribution. In other
+                words, it is in your best interest to choose the value of X for which you think it is equally likely
+                that you scored higher or lower than X number of questions correctly.
+            </p>
+        </div>
+    </div>
+    <br></br>
+    <form>
+        <label for="q1"><b>Question 1: We will randomly select one other Prolific participant who took the same math 
+            test as you. On a scale from 0 to 100, what is the chance that your score is greater than or equal to
+            the score of this randomly selected participant?</b></label>
+        <br></br>
+        <input type="number" id="q1" name="overplacement" min="0" max="100" step=1
+            title="Enter a number between 0 and 100"><label> / 100</label>
+
+        <br></br>
+        <label for="q2"><b>Question 2: Out of the 10 multiple choice questions, how many do you think
+                you
+                answered correctly?</b></label>
+        <br></br>
+        <input type="number" id="q2" name="overestimation" min="0" max="10" step=1
+            title="Enter a number between and 10"><label>/10</label>
+        <br></br>
+        <label for="q3"><b>Question 3: What is the value of X for which you think it's equally likely
+                that you
+                scored higher or lower than X number of questions correctly?</b></label>
+        <br></br>
+        <input type="number" id="q3" name="passing_threshold" min="0" max="10" step=1
+            title="Enter a number between 0 and 10"><label> /10 </label>
+        <br></br>
+        <button class="submit" onclick="nextButton(event)">Next</button>
+        <script>
+            function nextButton(event) {
+                event.nextButton();
+            }
+
+            function revealAnswersFunction(event) {
+                event.preventDefault();
+                const targetId = event.target.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                if (content.style.display === 'none' || content.style.display === '') {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            }
+
+            const startInput = document.getElementById('q3a_start');
+            const endInput = document.getElementById('q3a_end');
+
+            startInput.addEventListener('input', function () {
+                if (parseInt(startInput.value) >= parseInt(endInput.value)) {
+                    startInput.setCustomValidity('Start value must be less than end value');
+                } else {
+                    startInput.setCustomValidity('');
+                }
+            });
+
+            endInput.addEventListener('input', function () {
+                if (parseInt(endInput.value) <= parseInt(startInput.value)) {
+                    endInput.setCustomValidity('End value must be greater than start value');
+                } else {
+                    endInput.setCustomValidity('');
+                }
+            });
+        </script>
+    </form>
+</body>
+</div>
+{{ formfield_errors 'overplacement' }}
+{{ formfield_errors 'overestimation' }}
+{{ formfield_errors 'passing_threshold' }}
+{{ endblock }}

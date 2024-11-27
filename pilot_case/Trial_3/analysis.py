@@ -168,6 +168,8 @@ columns = section_1_cols + section_2_3_cols + section_4_5_cols + section_6_cols 
 
 df = df[columns]
 
+df.to_csv("Exp1_Trial_3_analysis_data.csv")
+
 def t_tests(df, alpha):
     ground_persistence = df[df[INFO_STRUCTURE] == 'ground'][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
     positive_persistence = df[df[INFO_STRUCTURE] == 'positive'][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)

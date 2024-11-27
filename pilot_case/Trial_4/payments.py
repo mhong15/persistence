@@ -3,8 +3,8 @@ from scipy.stats import ttest_ind
 import random
 import os
 
-OTREE_DATA = "Exp1_Trial_4.csv"
-DEMOGRAPHIC_DATA = "Exp1_Trial_4_Demographics.csv"
+OTREE_DATA = "Exp1_Trial_3.csv"
+DEMOGRAPHIC_DATA = "Exp1_Trial_3_Demographics.csv"
 
 PROLIFIC_ID = "Intro.1.player.prolific_id"
 STEM_QUIZ_1 = "Section_1.1.player.question"

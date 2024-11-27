@@ -56,3 +56,10 @@ test 5 - testing for remaining info structures,AAAAAAAAAA,0.2,0,0.0,0,0,0,ground
 test 6 - info structures,AAAAAAAAAA,0.2,0,0.0,0,0,0,positive,noisy,random,Pass,red,Not Sure,STEM Track,AAAAAADAAA,0.4,0,0.0,RRRRRRRRRRR,True,True,False,False,False,False,False,False,False,,,
 test 7 - info structure fail,AAAAAAAAAA,0.2,0,0.0,100,10,10,ground,noisy,random,Fail,black,Fail Box,STEM Track,AAAAAAAAAA,0.4,0,0.0,RRRRRRRRRRR,True,True,True,True,True,True,True,True,True,,,
 "test 4 - complete, but cheats",BADBACCDDD,0.2,2,200.407,10,0,0,ground,noisy,random,Pass,red,Pass Box,Non-STEM Track,B___D_B_B_,0,1,0.893,RRCCCCCCCCR,True,False,False,False,False,False,False,False,True,I LIKE it,nope,cs
+"test 0 - finishes STEM survey, does not cheat",AADDBBCCCD,0.6,0,0.0,100,10,10,negative,noisy,random,Fail,red,Pass Box,STEM Track,AACCDDBBCC,0.4,0,0.0,RRRRRCCCCCC,True,True,True,True,True,True,True,True,True,Because I like Math,It was good,"Math, Computer Science, Physics"
+test 1 - doesn't finish,__________,0,2,242.898,0,0,0,positive,noisy,random,Pass,black,Pass Box,STEM Track,__________,0,1,510.318,RRRCCCCCCCC,False,False,False,False,True,False,False,False,False,No particular reason,great,MAth
+test 2 - cheats and has some questions,B____C_D_A,0,1,0.366,5,5,5,positive,noisy,random,Fail,red,Fail Box,STEM Track,C_C_ADB__B,0.3,3,291.29900000000004,RRRRRCRCRCR,False,False,False,False,False,False,False,False,False,no reason,,
+test 3,_A_B_B_CC_,0.5,3,234.376,2,2,2,ground,noisy,random,Pass,red,Pass Box,Non-STEM Track,CAAABBCCDD,0.3,0,0.0,RRRRRRRRRRR,True,True,True,True,True,True,True,True,True,I don't like Math,,
+test 5 ,CCCCCCCCCC,0.3,0,0.0,90,4,4,ground,noisy,random,Fail,black,Fail Box,Non-STEM Track,_B_CB_A_C_,0.5,0,0.0,RRRRRRRRRRR,True,True,True,True,True,True,True,True,True,I don't like math,Great,English
+test 6,AAAAAAAAAA,0.2,0,0.0,50,4,5,ground,noisy,random,Fail,black,Fail Box,Non-STEM Track,DBAAADDDBB,0.4,2,4.828,RRRRRRRRRRR,False,False,False,False,False,False,False,False,False,,,
+test,AAAAAAAAAA,0.2,0,0.0,40,4,4,ground,noisy,random,Fail,black,Fail Box,Non-STEM Track,AAAAAAAAAA,0.2,0,0.0,RRRRRRRRRRR,True,True,True,True,True,True,True,True,True, dsDS, ,

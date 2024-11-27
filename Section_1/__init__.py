@@ -113,6 +113,13 @@ class Section_1(Page):
             }
             parsed_questions.append(parsed_question)
         return {'parsed_questions': parsed_questions}
+    
+    # def after_timeout(self):
+    #     for i in range(1, 11):
+    #         question_field = f'question{i}'
+    #         if not getattr(self.player, question_field):
+    #             setattr(self.player, question_field, '')
+
 
 class Conclusion(Page):
     form_model = 'player'

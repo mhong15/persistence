@@ -1,0 +1,26 @@
+{% block title %}
+Feedback
+{% endblock %}
+
+{% block content %}
+    {% if player.info_structure == 'ground' and player.track == "noisy" %}
+        {% if player.performance == "Top50%" %}
+            <p>You scored in the Top 50% of all participants who took the quiz.</p>
+        {% else %}
+            <p>You scored in the Bottom 50% of all participants who took the quiz.</p>
+        {% endif %}
+    {% elif player.info_structure == 'ground' and player.track == "comparative" %}
+        {% if player.performance == "Better" %}
+            <p>We randomly chose another participant who took the quiz and compared their score to your score. You scored BETTER than them.</p>
+        {% else %}
+            <p>We randomly chose another participant who took the quiz and compared their score to your score. You scored WORSE than them.</p>
+        {% endif %}
+    {% else %}
+        {% if player.ball_color == 'red' %}
+            <p>You got a RED ball.</p>
+        {% else %}
+            <p>You got a BLACK ball.</p>
+        {% endif %}
+    {% endif %}
+    {{ next_button }}
+{% endblock %}
