@@ -40,7 +40,9 @@ def print_header(header):
 
 df = pd.concat([  pd.read_csv("Exp1_Trial_2_analysis_data.csv"),
                 pd.read_csv("Exp1_Trial_3_analysis_data.csv"),
-                pd.read_csv("Exp1_Trial_4_analysis_data.csv")])
+                pd.read_csv("Exp1_Trial_4_analysis_data.csv"),
+                pd.read_csv("Exp1_Trial_5_analysis_data.csv"),
+                pd.read_csv("Exp1_Trial_6_analysis_data.csv")])
 
 df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
 
@@ -127,12 +129,22 @@ class T_TESTS:
             self.t_test_persistence_by_signal(group="Ethnicity simplified", arg1=ethnicity, arg2=ethnicity2)
 
     def run_t_tests(self):
-        self.t_test_between_sexes()
-        self.t_test_between_ethnicities()
-        self.t_test_between_sexes_and_ethnicities()
+        # self.t_test_between_sexes()
+        # self.t_test_between_ethnicities()
+        # self.t_test_between_sexes_and_ethnicities()
         
-        self.t_test_persistence_by_signal_sex()
-        self.t_test_persistence_by_signal_ethnicity()
+        # self.t_test_persistence_by_signal_sex()
+        # self.t_test_persistence_by_signal_ethnicity()
+
+        print_header("T-TESTS BETWEEN INFO STRUCTURES")
+        for sex in SEXES:
+            self.t_test_between_info_structure((self.df["Sex"] == sex), group_description=f"{sex}")
+        for ethnicity in ETHNICITIES_SIMPLIFIED:
+            self.t_test_between_info_structure((self.df["Ethnicity simplified"] == ethnicity), group_description=f"{ethnicity}")
+        for ethnicity in ETHNICITIES_SIMPLIFIED:
+            for sex in SEXES:
+                self.t_test_between_info_structure(((self.df["Ethnicity simplified"] == ethnicity) & (self.df["Sex"] == sex)), group_description=f"{ethnicity} {sex}")
+                                          
 
 class OVERCONFIDENCE:
     def __init__(self, df, is_print=False):
@@ -455,11 +467,30 @@ class RISK:
         plt.show()
 
 
+def signal_breakdown(df):
+    # Prints a breakdown of the number of participants who received each signal
+    # for each info structure (positive, ground, negative)
+    print_header("SIGNAL BREAKDOWN")
+    for info_structure in INFO_STRUCTURES:
+        for signal in BALL_SIGNALS:
+            num_participants = df[(df[INFO_STRUCTURE] == info_structure) & (df[BALL_COLOR] == signal)].shape[0]
+            print(f"({INFO_STRUCTURE_STRING[info_structure]}, {signal}): {num_participants}")
+
+def demographic_breakdown(df):
+    # Prints a breakdown of the number of participants in each demographic group
+    print_header("DEMOGRAPHIC BREAKDOWN")
+    for ethnicity in ETHNICITIES_SIMPLIFIED:
+        for sex in SEXES:
+            num_participants = df[(df["Ethnicity simplified"] == ethnicity) & (df["Sex"] == sex)].shape[0]
+            print(f"({ethnicity}, {sex}): {num_participants}")
+
 t_tests = T_TESTS(df)
 t_tests.run_t_tests()
 
-overconfidence = OVERCONFIDENCE(df, is_print=True)
+overconfidence = OVERCONFIDENCE(df)
 overconfidence.run_tests()
+signal_breakdown(df)
+demographic_breakdown(df)
 
 risk_tolerance = RISK(df)
 risk_tolerance.run_tests()
