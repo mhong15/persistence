@@ -70,7 +70,7 @@ def clean_csv(input_file, output_file):
     df = df.rename(columns=columns_to_keep)
 
     # continue_or_quit
-    df['continue_or_quit'] = df["preferred_second_survey"].apply(lambda x: 1 if x == 'STEM Track' else 0)
+    df['continue_or_quit'] = df["preferred_second_survey"].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
     
     # Save cleaned CSV
     df.to_csv(output_file, index=False)

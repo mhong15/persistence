@@ -68,8 +68,9 @@ class Player(BasePlayer):
     quiz_2_answers = models.StringField()
     quiz_2_score = models.FloatField()
     preferred_second_survey = models.StringField(
-        choices=['STEM Track', 'Non-STEM Track'],
-        label="Choose your preferred track"
+        choices=['Continue STEM Track - Proceed to STEM Quiz', 
+                 'Quit STEM Track - Skip STEM Quiz, Proceed to Final Questions'],
+        label="Choose your preferred option"
     )
     parsed_questions = models.StringField()
     num_tab_switches_in_section_5 = models.IntegerField()
@@ -83,7 +84,7 @@ class Player(BasePlayer):
     
     def calculate_score(self):
         user_answers = self.participant.vars['quiz_2_answers']
-        if self.participant.vars['preferred_second_survey'] == 'STEM Track':
+        if self.participant.vars['preferred_second_survey'] == 'Continue STEM Track - Proceed to STEM Quiz':
             parsed_questions = Section_5A.vars_for_template(self)['parsed_questions']
         else:
             parsed_questions = Section_5B.vars_for_template(self)['parsed_questions']
@@ -106,8 +107,18 @@ class Section_4(Page):
     def before_next_page(player, timeout_happened):
         player.participant.vars['preferred_second_survey'] = player.preferred_second_survey
 
-class Conclusion_Section_4(Page):
+class Conclusion_Section_4A(Page):
     form_model = 'player'
+
+    def is_displayed(player):
+        return player.preferred_second_survey == 'Continue STEM Track - Proceed to STEM Quiz'
+
+class Conclusion_Section_4B(Page):
+    form_model = 'player'
+
+    def is_displayed(player):
+        return player.preferred_second_survey != 'Continue STEM Track - Proceed to STEM Quiz'
+
 
 class Section_5A(Page):
     timeout_seconds = 480
@@ -117,7 +128,7 @@ class Section_5A(Page):
                    'question9', 'question10', 'num_tab_switches_in_section_5', 'total_time_hidden_in_section_5']
     
     def is_displayed(player):
-        return player.preferred_second_survey == 'STEM Track'
+        return player.preferred_second_survey == 'Continue STEM Track - Proceed to STEM Quiz'
     
     def vars_for_template(self):
         with open('Section_4_5/static/Section_5A.csv', 'r') as file:
@@ -140,47 +151,18 @@ class Section_5A(Page):
             parsed_questions.append(parsed_question)
         return {'parsed_questions': parsed_questions}
 
-class Section_5B(Page):
-    timeout_seconds = 480
-    form_model = 'player'
-    form_fields = ['question1', 'question2', 'question3', 'question4', 
-                   'question5', 'question6', 'question7', 'question8', 
-                   'question9', 'question10', 'num_tab_switches_in_section_5', 'total_time_hidden_in_section_5']
-
-    def is_displayed(player):
-        return player.preferred_second_survey == 'Non-STEM Track'
-
-    def vars_for_template(self):
-        with open('Section_4_5/static/Section_5B.csv', 'r') as file:
-            questions_data = list(csv.DictReader(file))
-
-        parsed_questions = []
-        for question in questions_data:
-            parsed_question = {
-                'question_text': question['question_text'],
-                'options': [
-                    question['option_1'],
-                    question['option_2'],
-                    question['option_3'],
-                    question['option_4'],
-                ],
-                'correct_answer': (question['correct_answer']),  
-                'image_url': f'Section_4_5/Section_5B/{question["question_text"]}.png', 
-            }
-            parsed_questions.append(parsed_question)
-        return {'parsed_questions': parsed_questions}
-
 class Conclusion_Section_5(Page):
     form_model = 'player'
     
     def is_displayed(player):
-        player.quiz_2_answers = player.get_quiz_answers()
-        player.participant.vars['quiz_2_answers'] = player.quiz_2_answers
-        player.quiz_2_score = player.calculate_score()
-        player.participant.vars['quiz_2_score'] = player.quiz_2_score
-        player.participant.vars['num_tab_switches_in_section_5'] = player.num_tab_switches_in_section_5
-        player.participant.vars['total_time_hidden_in_section_5'] = player.total_time_hidden_in_section_5
-        
-        return True
+        if player.preferred_second_survey == 'Continue STEM Track - Proceed to STEM Quiz':
+            player.quiz_2_answers = player.get_quiz_answers()
+            player.participant.vars['quiz_2_answers'] = player.quiz_2_answers
+            player.quiz_2_score = player.calculate_score()
+            player.participant.vars['quiz_2_score'] = player.quiz_2_score
+            player.participant.vars['num_tab_switches_in_section_5'] = player.num_tab_switches_in_section_5
+            player.participant.vars['total_time_hidden_in_section_5'] = player.total_time_hidden_in_section_5
+            return True
+        return False
 
-page_sequence = [Section_4, Conclusion_Section_4, Section_5A, Section_5B, Conclusion_Section_5]
+page_sequence = [Section_4, Conclusion_Section_4A, Conclusion_Section_4B, Section_5A, Conclusion_Section_5]

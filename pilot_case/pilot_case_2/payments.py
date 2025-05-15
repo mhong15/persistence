@@ -140,7 +140,7 @@ class Payment_Calculator:
     def calculate_bonus_section_5(self, index):
         if pd.isna(self.df[PREFERRED_SECOND_SURVEY][index]):
             return 0
-        if self.df[PREFERRED_SECOND_SURVEY][index] == 'STEM Track':
+        if self.df[PREFERRED_SECOND_SURVEY][index] == 'Continue STEM Track - Proceed to STEM Quiz':
             if self.df[QUIZ_2_SCORE][index] * 10 >= self.df[PASSING_THRESHOLD][index]:
                 return 2
             return 0

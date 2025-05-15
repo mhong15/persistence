@@ -139,7 +139,7 @@ class Payment_Calculator:
     def calculate_bonus_section_5(self, index):
         if pd.isna(self.df[PREFERRED_SECOND_SURVEY][index]):
             return 0
-        if self.df[PREFERRED_SECOND_SURVEY][index] == 'STEM Track':
+        if self.df[PREFERRED_SECOND_SURVEY][index] == 'Continue STEM Track - Proceed to STEM Quiz':
             if self.df[QUIZ_2_SCORE][index] * 10 >= self.df[PASSING_THRESHOLD][index] :
                 return 2
             return 0
@@ -189,7 +189,7 @@ for index, row in df.iterrows():
     participant_answers = "".join(participant_answers)
     df.at[index, QUIZ_2_ANSWERS] = participant_answers
 
-    if row[PREFERRED_SECOND_SURVEY] == 'STEM Track':
+    if row[PREFERRED_SECOND_SURVEY] == 'Continue STEM Track - Proceed to STEM Quiz':
         participant_score = sum([1 if participant_answers[i] == question else 0 for i, question in enumerate(section_5A_answer_key['correct_answer'])]) / len(section_5A_answer_key)
     else:
         participant_score = sum([1 if participant_answers[i] == question else 0 for i, question in enumerate(section_5B_answer_key['correct_answer'])])

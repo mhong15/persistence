@@ -28,12 +28,16 @@ class Player(BasePlayer):
     schools_all_girls_school = models.BooleanField(blank=True, initial=False)
     schools_all_boys_school = models.BooleanField(blank=True, initial=False)
     schools_stem_oriented_school = models.BooleanField(blank=True, initial=False)
-    
+
+    parents_stem_background = models.BooleanField(blank=True, initial =False)
+
     track_decision = models.LongStringField(blank=True)
     subjects = models.LongStringField(blank=True)
     experience = models.LongStringField(blank=True)
     
-    preferred_second_survey = models.StringField(choices=['STEM Track', 'Non-STEM Track'])
+    preferred_second_survey = models.StringField(choices=[
+        'Continue STEM Track - Proceed to STEM Quiz', 
+        'Quit STEM Track - Skip STEM Quiz, Proceed to Final Questions'])
     
 
 # PAGES
@@ -48,6 +52,7 @@ class Section_7(Page):
                   'schools_all_girls_school',
                   'schools_all_boys_school',
                   'schools_stem_oriented_school',
+                  'parents_stem_background',
                   'track_decision',
                   'subjects', 
                   'experience']
@@ -65,6 +70,7 @@ class Section_7(Page):
         for school in schools:
             Section_7.store_check_box(player, school)
     
+        Section_7.store_check_box(player, 'parents_stem_background')
         player.participant.vars['track_decision'] = player.track_decision
         player.participant.vars['experience'] = player.experience
         player.participant.vars['subjects'] = player.subjects

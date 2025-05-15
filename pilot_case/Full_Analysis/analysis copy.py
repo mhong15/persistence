@@ -37,7 +37,7 @@ df = pd.concat([pd.read_csv("Exp1_Trial_4_analysis_data.csv"),
                   pd.read_csv("Exp1_Trial_3_analysis_data.csv")])
 
 # Add a new column for persistence where 1-> STEM Track and 0-> Quit
-df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
+df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
 
 # Save the combined data to a new file
 df.to_csv("Exp1_Combined_analysis_data.csv", index=False)
@@ -48,7 +48,7 @@ def print_header(header):
     print(f"\n{header}\n{'-' * (50)}")
 
 def t_tests_between_sexes(df, alpha):
-    df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
+    df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
     print_header("T-TESTS BETWEEN SEXES")
     for info_structure in INFO_STRUCTURES:
         print(f"\n{info_structure}:")
@@ -57,8 +57,8 @@ def t_tests_between_sexes(df, alpha):
         else:
             data = df[df[INFO_STRUCTURE] == info_structure]
 
-        female_persistence = data[data['Sex'] == "Female"][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
-        male_persistence = data[data['Sex'] == "Male"][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
+        female_persistence = data[data['Sex'] == "Female"][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
+        male_persistence = data[data['Sex'] == "Male"][PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
 
         (_, p_value) = ttest_ind(female_persistence, male_persistence)
         print(f'(Female, Male) Persistence for {info_structure} info structure p-value: {round(p_value, 2)}')
@@ -92,7 +92,7 @@ def persistence_by_signal(df, alpha):
     df = pd.concat([pd.read_csv("Exp1_Trial_2_analysis_data.csv"),
                   pd.read_csv("Exp1_Trial_3_analysis_data.csv"),
                   pd.read_csv("Exp1_Trial_4_analysis_data.csv")])
-    df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
+    df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
     persistence_by_gender = df.groupby('Sex')['continue_or_quit'].mean()
     print(persistence_by_gender)
 
@@ -246,13 +246,13 @@ def run_t_tests(df, alpha):
 def run_average_persistence_per_info_structure(ax):
     print_header("AVERAGE PERSISTENCE PER INFO STRUCTURE")
     
-    average_persistence_by_info_structure = df.groupby(INFO_STRUCTURE)[PREFERRED_SECOND_SURVEY].apply(lambda x: (x == 'STEM Track').mean())
+    average_persistence_by_info_structure = df.groupby(INFO_STRUCTURE)[PREFERRED_SECOND_SURVEY].apply(lambda x: (x == 'Continue STEM Track - Proceed to STEM Quiz').mean())
     # print(average_persistence_by_info_structure)
 
     avg_persistence = pd.DataFrame(columns=['Group', 'Ground', 'Positive', 'Negative'])
 
     for sex in SEXES:
-        persistence_per_structure = df[df['Sex'] == sex].groupby(INFO_STRUCTURE)[PREFERRED_SECOND_SURVEY].apply(lambda x: (x == 'STEM Track').mean())
+        persistence_per_structure = df[df['Sex'] == sex].groupby(INFO_STRUCTURE)[PREFERRED_SECOND_SURVEY].apply(lambda x: (x == 'Continue STEM Track - Proceed to STEM Quiz').mean())
 
         new_row = pd.DataFrame([{
             'Group': sex,

@@ -44,7 +44,7 @@ df = pd.concat([  pd.read_csv("Exp1_Trial_2_analysis_data.csv"),
                 pd.read_csv("Exp1_Trial_5_analysis_data.csv"),
                 pd.read_csv("Exp1_Trial_6_analysis_data.csv")])
 
-df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'STEM Track' else 0)
+df['continue_or_quit'] = df[PREFERRED_SECOND_SURVEY].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
 
 df.to_csv("Exp1_Combined_analysis_data.csv", index=False)
 

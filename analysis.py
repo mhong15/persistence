@@ -46,9 +46,9 @@ Alternative Hypothesis: There is a significant difference in the average persist
 '''
 
 def t_tests(df, alpha):
-    ground_persistence = df[df['info_structure'] == 'ground']['preferred_second_survey'].apply(lambda x: 1 if x == 'STEM Track' else 0)
-    positive_persistence = df[df['info_structure'] == 'positive']['preferred_second_survey'].apply(lambda x: 1 if x == 'STEM Track' else 0)
-    negative_persistence = df[df['info_structure'] == 'negative']['preferred_second_survey'].apply(lambda x: 1 if x == 'STEM Track' else 0)
+    ground_persistence = df[df['info_structure'] == 'ground']['preferred_second_survey'].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
+    positive_persistence = df[df['info_structure'] == 'positive']['preferred_second_survey'].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
+    negative_persistence = df[df['info_structure'] == 'negative']['preferred_second_survey'].apply(lambda x: 1 if x == 'Continue STEM Track - Proceed to STEM Quiz' else 0)
 
     t_statistic, p_value = ttest_ind(ground_persistence, positive_persistence)
     print("NULL HYPOTHESIS: There is no significant difference in the average persistence of participants in the ground truth group compared to the average persistence of participants in the positively skewed group.")
@@ -83,7 +83,7 @@ def risk_tolerant_or_averse(risk_quiz):
 def chi_squared_test(df, alpha):
     df['risk_averse_or_tolerant'] = df['risk_tolerance_answers'].apply(lambda x: risk_tolerant_or_averse(x))
     # print(df['risk_averse_or_tolerant'])
-    df['continue_or_quit'] = df['preferred_second_survey'].apply(lambda x: 'Continue' if x == 'STEM Track' else 'Quit')
+    df['continue_or_quit'] = df['preferred_second_survey'].apply(lambda x: 'Continue' if x == 'Continue STEM Track - Proceed to STEM Quiz' else 'Quit')
 
     continue_and_bet = sum((df['continue_or_quit'] == 'Continue') & (df['risk_averse_or_tolerant'] == 'risk_tolerant'))
     continue_and_fixed = sum((df['continue_or_quit'] == 'Continue') & (df['risk_averse_or_tolerant'] == 'risk_averse'))
