@@ -1,0 +1,19 @@
+,Group,Choice A,Choice B
+0,All,0.5327,0.4673
+1,Female,0.5051,0.4949
+2,Male,0.56,0.44
+3,Asian,0.5882,0.4118
+4,White,0.5214,0.4786
+5,Black,0.5217,0.4783
+6,Mixed,0.5714,0.4286
+7,Other,0.6,0.4
+8,"Asian, Female",0.8571,0.1429
+9,"Asian, Male",0.4,0.6
+10,"White, Female",0.4615,0.5385
+11,"White, Male",0.5733,0.4267
+12,"Black, Female",0.4706,0.5294
+13,"Black, Male",0.6667,0.3333
+14,"Mixed, Female",0.5714,0.4286
+15,"Mixed, Male",0.5714,0.4286
+16,"Other, Female",0.6667,0.3333
+17,"Other, Male",0.5,0.5
